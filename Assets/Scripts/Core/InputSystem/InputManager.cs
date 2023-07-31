@@ -1,20 +1,24 @@
 using UnityEngine;
+using FishNet;
+using FishNet.Object;
 using LuminaStudio.Core.Cameras;
 
 namespace LuminaStudio.Core.InputSystem
 {
     public class InputManager : MonoBehaviour
     {
-        public CameraManager cameraManager;
-        public Camera mainCamera;
-        public Ray raycast;
-        public RaycastHit hit;
-        public Transform indicator;
+        private static InputManager instance;
+        private CameraManager _cameraManager;
+        private Camera _mainCamera;
+        private Ray _raycast;
+        private RaycastHit _hit;
+        private static Vector3 _mousePosition;
+        private Transform indicator;
 
         void Awake()
         {
-            cameraManager = FindAnyObjectByType<CameraManager>();
-            mainCamera = cameraManager.mainCamera;
+            _cameraManager = FindAnyObjectByType<CameraManager>();
+            _mainCamera = _cameraManager.mainCamera;
             indicator = transform.GetChild(0);
         }
 
@@ -25,16 +29,19 @@ namespace LuminaStudio.Core.InputSystem
 
         private void RaycastByMousePosition()
         {
-            raycast = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(raycast, out hit, float.MaxValue, LayerMask.GetMask("Ground"));
-            indicator.position = hit.point;
+            _raycast = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            Physics.Raycast(_raycast, out _hit, float.MaxValue, LayerMask.GetMask("Ground"));
+            _mousePosition = _hit.point;
+            indicator.position = _mousePosition;
         }
-        ///<summary>
-        ///     returns the current raycast point by mouse position
-        ///</summary>
-        public Ray GetRaycastPointMouse()
+        public Ray GetRaycastPointRay()
         {
-            return raycast;
+            return _raycast;
+        }
+
+        public static Vector3 GetMousePosition()
+        {
+            return _mousePosition;
         }
     }
 }
