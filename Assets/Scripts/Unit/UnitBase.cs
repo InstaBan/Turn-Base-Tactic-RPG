@@ -3,7 +3,7 @@ using LuminaStudio.Core.InputSystem;
 
 namespace LuminaStudio.Unit
 {
-    public class UnitMovement : MonoBehaviour
+    public class UnitBase : MonoBehaviour
     {
         #region attributes
         private Animator _animator;
@@ -20,6 +20,7 @@ namespace LuminaStudio.Unit
 
             // replace value with values readed from scriptable objects later
             _animator = GetComponent<Animator>();
+            _destination = transform.position;
         }
         private void Update()
         {
@@ -29,24 +30,19 @@ namespace LuminaStudio.Unit
                 var direction = (_destination - transform.position).normalized;
                 transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * 10f);
                 transform.position += direction * _movementSpeed * Time.deltaTime;
+                _animator.SetBool("isMoving", true);
             }
             else
             {
                 _animator.SetBool("isMoving", false);
             }
-            // replace with event maybe?
-            if (Input.GetMouseButtonDown(0))
-            {
-                SetDestination();
-                _animator.SetBool("isMoving", true);
-            }
         }
 
-        private void SetDestination()
+        internal void SetDestination()
         {
             _destination = InputManager.GetMousePosition();
         }
-        private void SetDestination(Vector3 destination)
+        internal void SetDestination(Vector3 destination)
         {
             _destination = destination;
         }
