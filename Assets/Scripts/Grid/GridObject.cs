@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using LuminaStudio.Unit;
 using UnityEngine;
 
 namespace LuminaStudio.Grid
@@ -6,11 +8,13 @@ namespace LuminaStudio.Grid
     {
         private GridBase _gridBase;
         private GridPosition _gridPosition;
+        private List<UnitBase> _unitList;
 
         public GridObject(GridBase gridBase, GridPosition gridPosition)
         {
             this._gridBase = gridBase;
             this._gridPosition = gridPosition;
+            _unitList = new();
         }
 
         public GridPosition GetGridPosition()
@@ -18,9 +22,29 @@ namespace LuminaStudio.Grid
             return _gridPosition;
         }
 
+        public void AddUnitOnGrid(UnitBase unit)
+        {
+            _unitList.Add(unit);
+        }
+
+        public void RemoveUnitFromGird(UnitBase unit)
+        {
+            _unitList.Remove(unit);
+        }
+
+        public List<UnitBase> GetUnitsOnGrid()
+        {
+            return _unitList;
+        }
         public override string ToString()
         {
-            return _gridPosition.ToString();
+            string output = _gridPosition.ToString();
+            if (_unitList == null) return output;
+            for (int i = 0; i < _unitList.Count; i++)
+            {
+                output += ("\n" + _unitList[i].name);
+            }
+            return output;
         }
     }
 }
