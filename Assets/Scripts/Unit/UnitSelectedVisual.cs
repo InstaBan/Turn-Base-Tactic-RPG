@@ -28,15 +28,7 @@ namespace LuminaStudio.Unit
 
         private void UpdateVisual()
         {
-            //_renderer.enabled = _unit == UnitSelection.GetSelectedUnit();
-            if (_unit == UnitSelection.GetSelectedUnit())
-            {
-                _renderer.enabled = true;
-            }
-            else
-            {
-                _renderer.enabled = false;
-            }
+            _renderer.enabled = _unit == UnitSelection.GetSelectedUnit();
         }
     }
 }

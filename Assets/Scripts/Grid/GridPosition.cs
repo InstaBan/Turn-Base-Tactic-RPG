@@ -12,7 +12,7 @@ namespace LuminaStudio.Grid
 
         public override string ToString()
         {
-            return "x: " + x + " / z: " + z;
+            return x + " / " + z;
         }
     }
 }
