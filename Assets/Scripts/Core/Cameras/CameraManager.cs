@@ -1,16 +1,31 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 namespace LuminaStudio.Core.Cameras
 {
     public class CameraManager : MonoBehaviour
     {
         public static CameraManager Instance { get; private set; }
-        public static Camera mainCamera;
+        [SerializeField]
+        private static Camera _mainCamera;
+        [SerializeField]
+        private static CinemachineVirtualCamera _virtualCamera;
+
 
         public void Awake()
         {
             Instance = this;
-            mainCamera = Camera.main;
+            _mainCamera = transform.GetComponentInChildren<Camera>();
+            _virtualCamera = transform.GetComponentInChildren<CinemachineVirtualCamera>();
+        }
+
+        public static Camera GetMainCamera()
+        {
+            return _mainCamera;
+        }
+        public static CinemachineVirtualCamera GetVirtualCamera()
+        {
+            return _virtualCamera;
         }
     }
 }
