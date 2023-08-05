@@ -1,5 +1,5 @@
 using Cinemachine;
-using LuminaStudio.Core.InputSystem;
+using LuminaStudio.Core.Input;
 using UnityEditor.PackageManager;
 using UnityEngine;
 

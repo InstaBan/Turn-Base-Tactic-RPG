@@ -1,6 +1,6 @@
 using System;
+using LuminaStudio.Core.Input;
 using UnityEngine;
-using LuminaStudio.Core.InputSystem;
 
 namespace LuminaStudio.Unit
 {
@@ -20,7 +20,7 @@ namespace LuminaStudio.Unit
         }
         private void Update()
         {
-            if (!InputManager.IsClicked()) return;
+            if (!InputManager.IsMouseClicked()) return;
             if (!SelectUnit() && _selectedUnit != null)
             {
                 _selectedUnit.SetDestination();

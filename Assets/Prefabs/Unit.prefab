@@ -5516,6 +5516,7 @@ GameObject:
   - component: {fileID: 5277517466177676082}
   - component: {fileID: 5424653620661317400}
   - component: {fileID: 1859376696661045574}
+  - component: {fileID: 2563778832047881259}
   - component: {fileID: 6091195757877370433}
   m_Layer: 7
   m_Name: Unit
@@ -5602,6 +5603,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unit: {fileID: 5277517466177676082}
+--- !u!114 &2563778832047881259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8254256302770983913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd16e34a42a2b345b9b341a0ca42a7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &6091195757877370433
 CapsuleCollider:
   m_ObjectHideFlags: 0

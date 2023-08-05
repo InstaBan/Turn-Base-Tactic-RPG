@@ -1,6 +1,6 @@
 using UnityEngine;
-using LuminaStudio.Core.InputSystem;
 using LuminaStudio.Calculation.Logic;
+using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
 
 namespace LuminaStudio.Unit
