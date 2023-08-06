@@ -1,12 +1,13 @@
 using System;
 using LuminaStudio.Core.Input;
+using LuminaStudio.Grid;
 using UnityEngine;
 
 namespace LuminaStudio.Unit
 {
-    public class UnitSelection : MonoBehaviour
+    public class UnitAction : MonoBehaviour
     {
-        public static UnitSelection Instance { get; private set; }
+        public static UnitAction Instance { get; private set; }
         public event EventHandler OnSelectedUnitChanged;
         [SerializeField]
         private static UnitBase _selectedUnit;
@@ -20,10 +21,17 @@ namespace LuminaStudio.Unit
         }
         private void Update()
         {
-            if (!InputManager.IsMouseClicked()) return;
-            if (!SelectUnit() && _selectedUnit != null)
+            if (InputManager.IsMouseLeftClicked())
             {
-                _selectedUnit.SetDestination();
+                if (!SelectUnit() && _selectedUnit != null)
+                {
+                    GridPosition mouseGridPosition = 
+                        GridLevel.Instance.GetGridPosition(InputManager.GetMousePosition());
+                    if (_selectedUnit.GetUnitMovement().IsValidGridPosition(mouseGridPosition))
+                    {
+                        _selectedUnit.GetUnitMovement().SetDestination(mouseGridPosition);
+                    }
+                }
             }
         }
 

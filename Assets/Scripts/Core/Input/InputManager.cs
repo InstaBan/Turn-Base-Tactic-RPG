@@ -61,7 +61,7 @@ namespace LuminaStudio.Core.Input
             return _mousePosition;
         }
 
-        public static bool IsMouseClicked()
+        public static bool IsMouseLeftClicked()
         {
             return UnityEngine.Input.GetMouseButtonDown(0);
         }

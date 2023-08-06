@@ -17,7 +17,7 @@ namespace LuminaStudio.Unit
 
         private void Start()
         {
-            UnitSelection.Instance.OnSelectedUnitChanged += OnselectedUnitChanged;
+            UnitAction.Instance.OnSelectedUnitChanged += OnselectedUnitChanged;
             UpdateVisual();
         }
 
@@ -28,7 +28,7 @@ namespace LuminaStudio.Unit
 
         private void UpdateVisual()
         {
-            _renderer.enabled = _unit == UnitSelection.GetSelectedUnit();
+            _renderer.enabled = _unit == UnitAction.GetSelectedUnit();
         }
     }
 }

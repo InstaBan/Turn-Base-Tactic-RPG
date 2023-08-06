@@ -57,5 +57,12 @@ namespace LuminaStudio.Grid
         {
             return _gridObjects[gridPosition.x, gridPosition.z];
         }
+
+        public bool IsValidGridPosition(GridPosition gridPosition)
+        {
+            return gridPosition is { x: >= 0, z: >= 0 } 
+                   && gridPosition.x < width 
+                   && gridPosition.z < length;
+        }
     }
 }

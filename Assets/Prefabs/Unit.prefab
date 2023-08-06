@@ -5514,7 +5514,7 @@ GameObject:
   - component: {fileID: 8220761185400316832}
   - component: {fileID: 6089628112850958799}
   - component: {fileID: 5277517466177676082}
-  - component: {fileID: 5424653620661317400}
+  - component: {fileID: 1405574111251666259}
   - component: {fileID: 1859376696661045574}
   - component: {fileID: 2563778832047881259}
   - component: {fileID: 6091195757877370433}
@@ -5577,8 +5577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a28930962b765e042951fd9932d3fe1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 5
---- !u!114 &5424653620661317400
+--- !u!114 &1405574111251666259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5587,7 +5586,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8254256302770983913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9720238ac727a0c4fa9ee161f220467b, type: 3}
+  m_Script: {fileID: 11500000, guid: ee7b8801eb1a04d44bca59d25574da90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1859376696661045574
@@ -5615,6 +5614,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fd16e34a42a2b345b9b341a0ca42a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementSpeed: 5
+  _movementRadius: 4
 --- !u!136 &6091195757877370433
 CapsuleCollider:
   m_ObjectHideFlags: 0

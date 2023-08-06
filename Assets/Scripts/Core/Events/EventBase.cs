@@ -1,26 +1,29 @@
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace LuminaStudio.Core.Events
 {
-    // WARNING: DO NOT ATTEMPT TO MAKE IT STATIC
-    public class EventBase
+    public class EventBase<TEnum> where TEnum : Enum
     {
-        public event Action MyEvent;
+        private Dictionary<TEnum, Action> eventHandlers = new Dictionary<TEnum, Action>();
 
-        public void RegisterEvent(Action eventHandler)
+        public void RegisterEvent(TEnum eventType, Action eventHandler)
         {
-            MyEvent += eventHandler;
+            eventHandlers.TryAdd(eventType, null);
+            eventHandlers[eventType] += eventHandler;
         }
 
-        public void UnregisterEvent(Action eventHandler)
+        public void UnregisterEvent(TEnum eventType, Action eventHandler)
         {
-            MyEvent -= eventHandler;
+            eventHandlers[eventType] -= eventHandler;
         }
 
-        public void TriggerEvent()
+        public void TriggerEvent(TEnum eventType)
         {
-            MyEvent?.Invoke();
+            if (eventHandlers.TryGetValue(eventType, out Action handler))
+            {
+                handler?.Invoke();
+            }
         }
     }
 }

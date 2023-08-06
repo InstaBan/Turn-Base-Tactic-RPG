@@ -46,5 +46,21 @@ namespace LuminaStudio.Grid
         {
             return _gridBase.GetGridPosition(worldPos);
         }
+        public Vector3 GetWorldPosition(GridPosition worldPos)
+        {
+            return _gridBase.GetWorldPosition(worldPos);
+        }
+
+
+        public bool IsValidGridPosition(GridPosition gridPosition)
+        {
+            return _gridBase.IsValidGridPosition(gridPosition);
+        }
+
+        public bool HasUnitOnGridPosition(GridPosition gridPosition)
+        {
+            GridObject grid = _gridBase.GetGridObject(gridPosition);
+            return grid.HasAnyUnit();
+        }
     }
 }
