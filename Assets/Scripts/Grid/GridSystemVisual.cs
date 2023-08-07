@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using LuminaStudio.Unit;
+using LuminaStudio.Unit.Actions;
 using UnityEngine;
 
 namespace LuminaStudio.Grid
@@ -66,9 +67,9 @@ namespace LuminaStudio.Grid
         {
             HideAllVisual();
             // WARNING: Please call it with event later
-            Unit.Unit unit = UnitActionSystem.GetSelectedUnit();
-            if (unit == null) return;
-            ShowAllVisual(unit.GetUnitMovement().GetValidGridPositions());
+            var selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+            if (selectedAction == null) return;
+            ShowAllVisual(selectedAction.GetValidGridPositions());
         }
     }
 }

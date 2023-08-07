@@ -16,6 +16,7 @@ namespace LuminaStudio.Unit
         #region Actions
         private MovementAction _movementAction;
         private TestAction _testAction;
+        private BaseAction[] _actionsArray;
         #endregion
 
         private void Awake() // replace with OnstartClient when networked
@@ -24,6 +25,7 @@ namespace LuminaStudio.Unit
             // replace value with values readed from scriptable objects later
             _movementAction = GetComponent<MovementAction>();
             _testAction = GetComponent<TestAction>();
+            _actionsArray = GetComponents<BaseAction>();
         }
 
         private void Start()
@@ -42,7 +44,7 @@ namespace LuminaStudio.Unit
             }
         }
 
-        public MovementAction GetUnitMovement()
+        public MovementAction GetMoveAction()
         {
             return _movementAction;
         }
@@ -55,6 +57,11 @@ namespace LuminaStudio.Unit
         public GridPosition GetGridPosition()
         {
             return _gridPosition;
+        }
+
+        public BaseAction[] GetActionArray()
+        {
+            return this._actionsArray;
         }
     }
 }

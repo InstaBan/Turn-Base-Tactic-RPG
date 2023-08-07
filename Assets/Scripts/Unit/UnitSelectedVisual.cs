@@ -23,7 +23,7 @@ namespace LuminaStudio.Unit
 
         private void UpdateVisual()
         {
-            m_Renderer.enabled = _unit == UnitActionSystem.GetSelectedUnit();
+            m_Renderer.enabled = _unit == UnitActionSystem.Instance.GetSelectedUnit();
         }
     }
 }

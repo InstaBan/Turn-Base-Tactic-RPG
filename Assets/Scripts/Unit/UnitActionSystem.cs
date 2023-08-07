@@ -1,18 +1,23 @@
 using System;
 using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
+using LuminaStudio.Unit.Actions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace LuminaStudio.Unit
 {
     public class UnitActionSystem : MonoBehaviour
     {
         public static UnitActionSystem Instance { get; private set; }
+
         public event EventHandler OnSelectedUnitChanged;
+        public event EventHandler OnSelectedActionChanged;
         [SerializeField]
-        private static Unit _selectedUnit;
+        private Unit _selectedUnit;
         private LayerMask _layerMask;
         private bool _isBusy;
+        private BaseAction _selectedAction;
 
         private void Awake()
         {
@@ -27,26 +32,12 @@ namespace LuminaStudio.Unit
         private void Update()
         {
             if (_isBusy) return;
+            if (SelectUnit()) return;
 
-            if (InputManager.IsMouseLeftClicked())
-            {
-                if (!SelectUnit() && _selectedUnit != null)
-                {
-                    GridPosition mouseGridPosition = 
-                        GridLevel.Instance.GetGridPosition(InputManager.GetMousePosition());
-                    if (_selectedUnit.GetUnitMovement().IsValidGridPosition(mouseGridPosition))
-                    {
-                        EnterBusy();
-                        _selectedUnit.GetUnitMovement().SetDestination(mouseGridPosition, QuitBusy);
-                    }
-                }
-            }
+            // Check if mouse on UI element
+            if (EventSystem.current.IsPointerOverGameObject()) return;
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                EnterBusy();
-                if (_selectedUnit != null) _selectedUnit.GeTestAction().Spin(QuitBusy);
-            }
+            ExecuteSelectedAction();
         }
 
         private void EnterBusy()
@@ -60,11 +51,17 @@ namespace LuminaStudio.Unit
         }
         private bool SelectUnit()
         {
+            if (!InputManager.IsMouseLeftClicked()) return false;
+
             var ray = InputManager.GetRayCast();
             if (Physics.Raycast(ray, out RaycastHit _hit, float.MaxValue, _layerMask))
             {
                 if (_hit.transform.TryGetComponent<Unit>(out Unit unit))
                 {
+                    if (unit == _selectedUnit)
+                    {
+                        return false;
+                    }
                     SetSelectedUnit(unit);
                     return true;
                 }
@@ -77,7 +74,37 @@ namespace LuminaStudio.Unit
             _selectedUnit = unit;
             OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
         }
-        public static Unit GetSelectedUnit()
+
+        public void ExecuteSelectedAction()
+        {
+            if (InputManager.IsMouseLeftClicked())
+            {
+                var mouseGridPosition = 
+                    GridLevel.Instance.GetGridPosition(InputManager.GetMousePosition());
+                if (_selectedAction == null) return;
+                if (!_selectedAction.IsValidGridPosition(mouseGridPosition)) return;
+                EnterBusy();
+                var args = _selectedAction.GenerateArgs();
+                _selectedAction.TakeAction(args, QuitBusy);
+            }
+        }
+
+        public BaseAction GetSelectedAction()
+        {
+            return _selectedAction;
+        }
+
+        public bool IsSelectedAction(BaseAction action)
+        {
+            return action == _selectedAction;
+        }
+        public void SetSelectedAction(BaseAction baseAction)
+        {
+            _selectedAction = baseAction;
+            OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public Unit GetSelectedUnit()
         {
             return _selectedUnit;
         }

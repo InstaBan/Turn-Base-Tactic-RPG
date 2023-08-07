@@ -18,6 +18,17 @@ namespace LuminaStudio.Unit.Actions
         private Vector3 _destination;
         #endregion
 
+        public class MoveArgs : ActionArgs
+        {
+            public GridPosition TargetPosition;
+        }
+
+        public override ActionArgs GenerateArgs()
+        {
+            var mousePos = GridLevel.Instance.GetGridPosition(InputManager.GetMousePosition());
+            return new MoveArgs() { TargetPosition = mousePos };
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -48,23 +59,7 @@ namespace LuminaStudio.Unit.Actions
             }
         }
 
-        internal void SetDestination()
-        {
-            _destination = InputManager.GetMousePosition();
-        }
-        internal void SetDestination(Vector3 destination)
-        {
-            _destination = destination;
-        }
-
-        internal void SetDestination(GridPosition gridPosition, Action onActionComplete)
-        {
-            this.OnActionComplete = onActionComplete;
-            _destination = GridLevel.Instance.GetWorldPosition(gridPosition);
-            IsActive = true;
-        }
-
-        public List<GridPosition> GetValidGridPositions()
+        public override List<GridPosition> GetValidGridPositions()
         {
             List<GridPosition> validGridPositions = new List<GridPosition>();
 
@@ -84,12 +79,6 @@ namespace LuminaStudio.Unit.Actions
             return validGridPositions;
         }
 
-        public bool IsValidGridPosition(GridPosition gridPosition)
-        {
-            List<GridPosition> validPositionsList = GetValidGridPositions();
-            return validPositionsList.Contains(gridPosition);
-        }
-
         private bool ValidateGridPosition(GridPosition unitPosition, GridPosition targetPosition)
         {
             if (!GridLevel.Instance.IsValidGridPosition(targetPosition))
@@ -107,6 +96,19 @@ namespace LuminaStudio.Unit.Actions
                 return false;
             }
             return true;
+        }
+
+        public override string GetActionName()
+        {
+            return "Move";
+        }
+
+        public override void TakeAction(ActionArgs parameters, Action onActionComplete)
+        {
+            MoveArgs movementParameters = (MoveArgs)parameters;
+            this.OnActionComplete = onActionComplete;
+            _destination = GridLevel.Instance.GetWorldPosition(movementParameters.TargetPosition);
+            IsActive = true;
         }
     }
 }

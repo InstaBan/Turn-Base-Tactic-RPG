@@ -9,12 +9,12 @@ namespace LuminaStudio.Player
         private float _mMovementSpeed = 5f;
         [SerializeField]
         private float _mRotationSpeed = 180f;
-        [SerializeField]
-        private float _mCameraFollowDistanceX = 0f;
-        [SerializeField]
-        private float _mCameraFollowDistanceY = 0f;
-        [SerializeField]
-        private float _mCameraFollowDistanceZ = -3f;
+        //[SerializeField]
+        //private float _mCameraFollowDistanceX = 0f;
+        //[SerializeField]
+        //private float _mCameraFollowDistanceY = 0f;
+        //[SerializeField]
+        //private float _mCameraFollowDistanceZ = -3f;
         private Camera _mPlayerCamera;
         private CharacterController _characterController;
         public override void OnStartClient()
