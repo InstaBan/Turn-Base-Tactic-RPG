@@ -66,7 +66,7 @@ namespace LuminaStudio.Grid
         {
             HideAllVisual();
             // WARNING: Please call it with event later
-            UnitBase unit = UnitAction.GetSelectedUnit();
+            Unit.Unit unit = UnitActionSystem.GetSelectedUnit();
             if (unit == null) return;
             ShowAllVisual(unit.GetUnitMovement().GetValidGridPositions());
         }

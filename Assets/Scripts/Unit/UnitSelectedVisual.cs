@@ -6,13 +6,13 @@ namespace LuminaStudio.Unit
     public class UnitSelectedVisual : MonoBehaviour
     {
         [SerializeField] 
-        private UnitBase _unit;
+        private Unit _unit;
         [SerializeField]
         private MeshRenderer m_Renderer;
 
         private void Start()
         {
-            UnitAction.Instance.OnSelectedUnitChanged += OnselectedUnitChanged;
+            UnitActionSystem.Instance.OnSelectedUnitChanged += OnselectedUnitChanged;
             UpdateVisual();
         }
 
@@ -23,7 +23,7 @@ namespace LuminaStudio.Unit
 
         private void UpdateVisual()
         {
-            m_Renderer.enabled = _unit == UnitAction.GetSelectedUnit();
+            m_Renderer.enabled = _unit == UnitActionSystem.GetSelectedUnit();
         }
     }
 }

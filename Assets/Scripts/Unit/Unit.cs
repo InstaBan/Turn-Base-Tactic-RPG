@@ -2,23 +2,28 @@ using UnityEngine;
 using LuminaStudio.Calculation.Logic;
 using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
+using LuminaStudio.Unit.Actions;
 
 namespace LuminaStudio.Unit
 {
-    public class UnitBase : MonoBehaviour
+    public class Unit : MonoBehaviour
     {
         #region attributes
         [SerializeField]
         private GridPosition _gridPosition;
+        #endregion
 
-        private UnitMovement _unitMovement;
+        #region Actions
+        private MovementAction _movementAction;
+        private TestAction _testAction;
         #endregion
 
         private void Awake() // replace with OnstartClient when networked
         {
             //base.OnStartClient();
             // replace value with values readed from scriptable objects later
-            _unitMovement = GetComponent<UnitMovement>();
+            _movementAction = GetComponent<MovementAction>();
+            _testAction = GetComponent<TestAction>();
         }
 
         private void Start()
@@ -37,9 +42,14 @@ namespace LuminaStudio.Unit
             }
         }
 
-        public UnitMovement GetUnitMovement()
+        public MovementAction GetUnitMovement()
         {
-            return _unitMovement;
+            return _movementAction;
+        }
+
+        public TestAction GeTestAction()
+        {
+            return _testAction;
         }
 
         public GridPosition GetGridPosition()

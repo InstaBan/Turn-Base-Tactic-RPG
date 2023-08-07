@@ -24,23 +24,23 @@ namespace LuminaStudio.Grid
             _gridBase.DebugObjects(_gridDebugObjecTransform);
         }
 
-        public void AddUnitAtGridPosition(GridPosition gridPosition, UnitBase unit)
+        public void AddUnitAtGridPosition(GridPosition gridPosition, Unit.Unit unit)
         {
             _grid = _gridBase.GetGridObject(gridPosition);
             _grid.AddUnitOnGrid(unit);
 
         }
-        public void RemoveUnitAtGridPosition(GridPosition gridPosition, UnitBase unit)
+        public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit.Unit unit)
         {
             _grid = _gridBase.GetGridObject(gridPosition);
             _grid.RemoveUnitFromGird(unit);
         }
-        public void UpdateUnitAtGridPosition(UnitBase unit, GridPosition oldPos, GridPosition newPos)
+        public void UpdateUnitAtGridPosition(Unit.Unit unit, GridPosition oldPos, GridPosition newPos)
         {
             RemoveUnitAtGridPosition(oldPos, unit);
             AddUnitAtGridPosition(newPos, unit);
         }
-        public List<UnitBase> GetUnitsAtGridPosition(GridPosition gridPosition)
+        public List<Unit.Unit> GetUnitsAtGridPosition(GridPosition gridPosition)
         {
             _grid = _gridBase.GetGridObject(gridPosition);
             var units = _grid.GetUnitsOnGrid();

@@ -8,7 +8,7 @@ namespace LuminaStudio.Grid
     {
         private GridBase _gridBase;
         private GridPosition _gridPosition;
-        private List<UnitBase> _unitList;
+        private List<Unit.Unit> _unitList;
 
         public GridObject(GridBase gridBase, GridPosition gridPosition)
         {
@@ -22,17 +22,17 @@ namespace LuminaStudio.Grid
             return _gridPosition;
         }
 
-        public void AddUnitOnGrid(UnitBase unit)
+        public void AddUnitOnGrid(Unit.Unit unit)
         {
             _unitList.Add(unit);
         }
 
-        public void RemoveUnitFromGird(UnitBase unit)
+        public void RemoveUnitFromGird(Unit.Unit unit)
         {
             _unitList.Remove(unit);
         }
 
-        public List<UnitBase> GetUnitsOnGrid()
+        public List<Unit.Unit> GetUnitsOnGrid()
         {
             return _unitList;
         }

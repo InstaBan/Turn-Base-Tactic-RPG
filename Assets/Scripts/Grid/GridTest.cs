@@ -7,7 +7,7 @@ namespace LuminaStudio.Grid
     public class GridTest : MonoBehaviour
     {
         [SerializeField]
-        private UnitBase _unit;
+        private Unit.Unit _unit;
         private List<GridPosition> _validPositions;
         private void Start()
         {

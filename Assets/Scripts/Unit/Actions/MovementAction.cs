@@ -1,16 +1,14 @@
+using System;
 using System.Collections.Generic;
 using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
-namespace LuminaStudio.Unit
+namespace LuminaStudio.Unit.Actions
 {
-    public class UnitMovement : MonoBehaviour
+    public class MovementAction : BaseAction
     {
         #region attributes
-        private Animator _animator;
-        private UnitBase _unit;
         private float _stoppingDistance = 0.1f;
         [SerializeField]
         private float _movementSpeed = 5f;
@@ -20,10 +18,9 @@ namespace LuminaStudio.Unit
         private Vector3 _destination;
         #endregion
 
-        private void Awake()
+        protected override void Awake()
         {
-            _animator = GetComponent<Animator>();
-            _unit = GetComponent<UnitBase>();
+            base.Awake();
             _destination = transform.position;
         }
 
@@ -33,17 +30,21 @@ namespace LuminaStudio.Unit
         }
         private void Update()
         {
+            if (!IsActive) return;
+
             _distanceToDestination = Vector3.Distance(transform.position, _destination);
             if (_distanceToDestination >= _stoppingDistance)
             {
                 var direction = (_destination - transform.position).normalized;
                 transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * 10f);
                 transform.position += direction * _movementSpeed * Time.deltaTime;
-                _animator.SetBool("isMoving", true);
+                Animator.SetBool("isMoving", true);
             }
             else
             {
-                _animator.SetBool("isMoving", false);
+                Animator.SetBool("isMoving", false);
+                IsActive = false;
+                OnActionComplete();
             }
         }
 
@@ -56,16 +57,18 @@ namespace LuminaStudio.Unit
             _destination = destination;
         }
 
-        internal void SetDestination(GridPosition gridPosition)
+        internal void SetDestination(GridPosition gridPosition, Action onActionComplete)
         {
+            this.OnActionComplete = onActionComplete;
             _destination = GridLevel.Instance.GetWorldPosition(gridPosition);
+            IsActive = true;
         }
 
         public List<GridPosition> GetValidGridPositions()
         {
             List<GridPosition> validGridPositions = new List<GridPosition>();
 
-            GridPosition unitGridPosition = _unit.GetGridPosition();
+            GridPosition unitGridPosition = Unit.GetGridPosition();
 
             for (int x = -_movementRadius; x <= _movementRadius; x++)
             {
