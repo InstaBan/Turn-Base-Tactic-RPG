@@ -7,13 +7,8 @@ namespace LuminaStudio.Unit
     {
         [SerializeField] 
         private UnitBase _unit;
-
-        private MeshRenderer _renderer;
-
-        private void Awake()
-        {
-            _renderer = this.transform.Find("SelectedRing").GetComponent<MeshRenderer>();
-        }
+        [SerializeField]
+        private MeshRenderer m_Renderer;
 
         private void Start()
         {
@@ -28,7 +23,7 @@ namespace LuminaStudio.Unit
 
         private void UpdateVisual()
         {
-            _renderer.enabled = _unit == UnitAction.GetSelectedUnit();
+            m_Renderer.enabled = _unit == UnitAction.GetSelectedUnit();
         }
     }
 }

@@ -4,15 +4,15 @@ namespace LuminaStudio.Grid
 {
     public class GridBase
     {
-        private int width;
-        private int length;
+        private int _width;
+        private int _length;
         private float _gridSize;
         private GridObject [,] _gridObjects;
 
         public GridBase(int width, int length, float gridSize)
         {
-            this.width = width;
-            this.length = length;
+            this._width = width;
+            this._length = length;
             this._gridSize = gridSize;
 
             _gridObjects = new GridObject[width, length];
@@ -41,9 +41,9 @@ namespace LuminaStudio.Grid
 
         public void DebugObjects(Transform debugTransform)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                for (int z = 0; z < length; z++)
+                for (int z = 0; z < _length; z++)
                 {
                     GridPosition gridPosition = new GridPosition(x, z);
                     Transform debugtTransform = GameObject.Instantiate(debugTransform, GetWorldPosition(gridPosition), Quaternion.identity);
@@ -61,8 +61,18 @@ namespace LuminaStudio.Grid
         public bool IsValidGridPosition(GridPosition gridPosition)
         {
             return gridPosition is { x: >= 0, z: >= 0 } 
-                   && gridPosition.x < width 
-                   && gridPosition.z < length;
+                   && gridPosition.x < _width 
+                   && gridPosition.z < _length;
+        }
+
+        public int GetWidth()
+        {
+            return _width;
+        }
+
+        public int GetLength()
+        {
+            return _length;
         }
     }
 }

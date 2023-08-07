@@ -14,6 +14,11 @@ namespace LuminaStudio.Grid
         private GridObject _grid;
         private void Awake()
         {
+            if (Instance != null)
+            {
+                Debug.LogError("Error: Duplicate GridLevel Found in: " + transform + " / " + Instance);
+                Destroy(gameObject);
+            }
             Instance = this;
             _gridBase = new GridBase(10, 10, 2f);
             _gridBase.DebugObjects(_gridDebugObjecTransform);
@@ -51,6 +56,15 @@ namespace LuminaStudio.Grid
             return _gridBase.GetWorldPosition(worldPos);
         }
 
+        public int GetWidth()
+        {
+            return _gridBase.GetWidth();
+        }
+
+        public int GetLength()
+        {
+            return _gridBase.GetLength();
+        }
 
         public bool IsValidGridPosition(GridPosition gridPosition)
         {

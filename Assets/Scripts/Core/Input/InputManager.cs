@@ -19,6 +19,11 @@ namespace LuminaStudio.Core.Input
 
         private void Awake()
         {
+            if (Instance != null)
+            {
+                Debug.LogError("Error: Duplicate InputManager Found in: " + transform + " / " + Instance);
+                Destroy(gameObject);
+            }
             Instance = this;
             indicator = transform.GetChild(0);
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using LuminaStudio.Unit;
 using UnityEngine;
 
@@ -7,16 +8,24 @@ namespace LuminaStudio.Grid
     {
         [SerializeField]
         private UnitBase _unit;
+        private List<GridPosition> _validPositions;
         private void Start()
         {
             
         }
-        void Update()
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.T))
             {
-                _unit.GetUnitMovement().GetValidGridPositions();
+                GridSystemVisual.Instance.HideAllVisual();
+                _validPositions = _unit.GetUnitMovement().GetValidGridPositions();
+                GridSystemVisual.Instance.ShowAllVisual(_validPositions);
             }
+        }
+
+        public List<GridPosition> GetValidPositions()
+        {
+            return _validPositions;
         }
     }
 }

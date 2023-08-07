@@ -14,6 +14,11 @@ namespace LuminaStudio.Core.Cameras
 
         public void Awake()
         {
+            if (Instance != null)
+            {
+                Debug.LogError("Error: Duplicate CameraManager Found in: " + transform + " / " + Instance);
+                Destroy(gameObject);
+            }
             Instance = this;
             _mainCamera = transform.GetComponentInChildren<Camera>();
             _virtualCamera = transform.GetComponentInChildren<CinemachineVirtualCamera>();
