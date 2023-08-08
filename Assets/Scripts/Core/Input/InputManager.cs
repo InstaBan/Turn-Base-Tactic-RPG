@@ -23,6 +23,7 @@ namespace LuminaStudio.Core.Input
             {
                 Debug.LogError("Error: Duplicate InputManager Found in: " + transform + " / " + Instance);
                 Destroy(gameObject);
+                return;
             }
             Instance = this;
             indicator = transform.GetChild(0);

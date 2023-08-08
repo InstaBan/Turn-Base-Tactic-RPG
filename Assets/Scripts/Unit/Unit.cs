@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using LuminaStudio.Calculation.Logic;
+using LuminaStudio.Combat.Turn;
 using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
 using LuminaStudio.Unit.Actions;
@@ -8,10 +10,18 @@ namespace LuminaStudio.Unit
 {
     public class Unit : MonoBehaviour
     {
-        #region attributes
+        #region Attributes
+
+        private const int ACTION_POINTS_MAX = 2;
         [SerializeField]
         private GridPosition _gridPosition;
-        private int _actionPoints = 2;
+        private int _actionPoints = ACTION_POINTS_MAX;
+        #endregion
+
+        #region Events
+
+        public static event EventHandler OnAnyActionPointsChanged;
+
         #endregion
 
         #region Actions
@@ -33,6 +43,9 @@ namespace LuminaStudio.Unit
         {
             _gridPosition = GridLevel.Instance.GetGridPosition(transform.position);
             GridLevel.Instance.AddUnitAtGridPosition(_gridPosition, this);
+
+            // Listen to Events
+            TurnSystem.Instance.OnEndTurn += OnEndTurn;
         }
         private void Update()
         {
@@ -89,6 +102,17 @@ namespace LuminaStudio.Unit
         private void SpendActionPoints(int amount)
         {
             _actionPoints -= amount;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        #region Turn
+
+        private void OnEndTurn(object sender, EventArgs empty)
+        {
+            _actionPoints = ACTION_POINTS_MAX;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
     }
 }

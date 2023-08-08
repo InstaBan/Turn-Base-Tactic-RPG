@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LuminaStudio.Combat.Turn;
 using UnityEngine;
 using LuminaStudio.Unit;
 using LuminaStudio.Unit.Actions;
@@ -29,6 +30,8 @@ namespace LuminaStudio.UI.Actions
             UnitActionSystem.Instance.OnSelectedActionChanged += OnSelectedActionChanged;
             UnitActionSystem.Instance.OnBusyChanged += OnBusyChanged;
             UnitActionSystem.Instance.OnActiontarted += OnActionStarted;
+            TurnSystem.Instance.OnEndTurn += OnEndTurn;
+            Unit.Unit.OnAnyActionPointsChanged += OnAnyActionPointsChanged;
         }
         private void CreateUnitActionButtons()
         {
@@ -89,5 +92,14 @@ namespace LuminaStudio.UI.Actions
             UpdateActionPoints();
         }
 
+        private void OnEndTurn(object sender, EventArgs empty)
+        {
+            UpdateActionPoints();
+        }
+
+        private void OnAnyActionPointsChanged(object sender, EventArgs empty)
+        {
+            UpdateActionPoints();
+        }
     }
 }

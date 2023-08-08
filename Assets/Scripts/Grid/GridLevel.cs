@@ -18,6 +18,7 @@ namespace LuminaStudio.Grid
             {
                 Debug.LogError("Error: Duplicate GridLevel Found in: " + transform + " / " + Instance);
                 Destroy(gameObject);
+                return;
             }
             Instance = this;
             _gridBase = new GridBase(10, 10, 2f);

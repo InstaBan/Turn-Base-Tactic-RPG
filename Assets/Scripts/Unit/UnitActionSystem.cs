@@ -27,6 +27,7 @@ namespace LuminaStudio.Unit
             {
                 Debug.LogError("Error: Duplicate UnitActionSystem Found in: " + transform + " / " + Instance);
                 Destroy(gameObject);
+                return;
             }
             Instance = this;
             _layerMask = LayerMask.GetMask("Unit");

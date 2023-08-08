@@ -21,6 +21,7 @@ namespace LuminaStudio.Grid
             {
                 Debug.LogError("Error: Duplicate GridSystemVisual Found in: " + transform + " / " + Instance);
                 Destroy(gameObject);
+                return;
             }
             Instance = this;
         }
