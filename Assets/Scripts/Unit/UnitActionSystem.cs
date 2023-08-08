@@ -13,6 +13,8 @@ namespace LuminaStudio.Unit
 
         public event EventHandler OnSelectedUnitChanged;
         public event EventHandler OnSelectedActionChanged;
+        public event EventHandler<bool> OnBusyChanged;
+        public event EventHandler OnActiontarted;
         [SerializeField]
         private Unit _selectedUnit;
         private LayerMask _layerMask;
@@ -43,11 +45,13 @@ namespace LuminaStudio.Unit
         private void EnterBusy()
         {
             _isBusy = true;
+            OnBusyChanged?.Invoke(this, _isBusy);
         }
 
         private void QuitBusy()
         {
             _isBusy = false;
+            OnBusyChanged?.Invoke(this, _isBusy);
         }
         private bool SelectUnit()
         {
@@ -81,11 +85,15 @@ namespace LuminaStudio.Unit
             {
                 var mouseGridPosition = 
                     GridLevel.Instance.GetGridPosition(InputManager.GetMousePosition());
+
                 if (_selectedAction == null) return;
                 if (!_selectedAction.IsValidGridPosition(mouseGridPosition)) return;
+                if (!_selectedUnit.TryExecuteAction(_selectedAction)) return;
+
                 EnterBusy();
                 var args = _selectedAction.GenerateArgs();
                 _selectedAction.TakeAction(args, QuitBusy);
+                OnActiontarted.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -94,14 +102,14 @@ namespace LuminaStudio.Unit
             return _selectedAction;
         }
 
-        public bool IsSelectedAction(BaseAction action)
-        {
-            return action == _selectedAction;
-        }
         public void SetSelectedAction(BaseAction baseAction)
         {
             _selectedAction = baseAction;
             OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
+        }
+        public bool IsSelectedAction(BaseAction action)
+        {
+            return action == _selectedAction;
         }
 
         public Unit GetSelectedUnit()

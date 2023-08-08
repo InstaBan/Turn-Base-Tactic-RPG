@@ -33,5 +33,7 @@ namespace LuminaStudio.Unit.Actions
         }
 
         public abstract List<GridPosition> GetValidGridPositions();
+
+        public abstract int GetActionResourceCost();
     }
 }

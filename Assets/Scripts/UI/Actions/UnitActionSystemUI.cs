@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LuminaStudio.Unit;
 using LuminaStudio.Unit.Actions;
+using TMPro;
 
 namespace LuminaStudio.UI.Actions
 {
@@ -12,6 +13,8 @@ namespace LuminaStudio.UI.Actions
         private Transform m_actionButtonPrefab;
         [SerializeField]
         private Transform m_actionButtonContainerTransform;
+        [SerializeField]
+        private TextMeshProUGUI m_actionPointsText;
 
         private List<ActionButtonUI> _actionButtonUIList;
         private Unit.Unit _selectedUnit;
@@ -24,6 +27,8 @@ namespace LuminaStudio.UI.Actions
         {
             UnitActionSystem.Instance.OnSelectedUnitChanged += OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnSelectedActionChanged += OnSelectedActionChanged;
+            UnitActionSystem.Instance.OnBusyChanged += OnBusyChanged;
+            UnitActionSystem.Instance.OnActiontarted += OnActionStarted;
         }
         private void CreateUnitActionButtons()
         {
@@ -48,6 +53,7 @@ namespace LuminaStudio.UI.Actions
         private void OnSelectedUnitChanged(object sender, EventArgs evt)
         {
             CreateUnitActionButtons();
+            UpdateActionPoints();
         }
         private void OnSelectedActionChanged(object sender, EventArgs evt)
         {
@@ -61,5 +67,27 @@ namespace LuminaStudio.UI.Actions
                 buttonUI.UpdateSelectedVisual();
             }
         }
+        private void UpdateActionPoints()
+        {
+            m_actionPointsText.text = "Action Points: " + _selectedUnit.GetActionPoints();
+        }
+
+        private void OnBusyChanged(object sender, bool isBusy)
+        {
+            if (!isBusy && _selectedUnit != null)
+            {
+                this.gameObject.SetActive(true);
+            }
+            else
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
+
+        private void OnActionStarted(object sender, EventArgs empty)
+        {
+            UpdateActionPoints();
+        }
+
     }
 }

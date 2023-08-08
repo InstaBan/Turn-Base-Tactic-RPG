@@ -48,6 +48,12 @@ namespace LuminaStudio.Unit.Actions
         {
             return "Test";
         }
+
+        public override int GetActionResourceCost()
+        {
+            return 1;
+        }
+
         public override void TakeAction(ActionArgs args, Action onActionComplete)
         {
             this.OnActionComplete = onActionComplete;

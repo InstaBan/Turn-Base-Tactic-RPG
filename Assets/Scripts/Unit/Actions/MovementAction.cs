@@ -103,6 +103,11 @@ namespace LuminaStudio.Unit.Actions
             return "Move";
         }
 
+        public override int GetActionResourceCost()
+        {
+            return 1;
+        }
+
         public override void TakeAction(ActionArgs parameters, Action onActionComplete)
         {
             MoveArgs movementParameters = (MoveArgs)parameters;

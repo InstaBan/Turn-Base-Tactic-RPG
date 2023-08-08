@@ -11,6 +11,7 @@ namespace LuminaStudio.Unit
         #region attributes
         [SerializeField]
         private GridPosition _gridPosition;
+        private int _actionPoints = 2;
         #endregion
 
         #region Actions
@@ -62,6 +63,32 @@ namespace LuminaStudio.Unit
         public BaseAction[] GetActionArray()
         {
             return this._actionsArray;
+        }
+
+        public bool TryExecuteAction(BaseAction action)
+        {
+            if (CanTakeAction(action))
+            {
+                SpendActionPoints(action.GetActionResourceCost());
+                return true;
+            }
+            return false;
+        }
+
+        // TEST ONLY : REQUIRE UPDATE
+        public bool CanTakeAction(BaseAction action)
+        {
+            return _actionPoints >= action.GetActionResourceCost();
+        }
+
+        public int GetActionPoints()
+        {
+            return _actionPoints;
+        }
+
+        private void SpendActionPoints(int amount)
+        {
+            _actionPoints -= amount;
         }
     }
 }
