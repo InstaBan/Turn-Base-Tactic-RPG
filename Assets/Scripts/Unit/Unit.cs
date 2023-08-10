@@ -14,6 +14,7 @@ namespace LuminaStudio.Unit
 
         private const int ACTION_POINTS_MAX = 2;
         [SerializeField]
+        private Animator _animator;
         private GridPosition _gridPosition;
         private int _actionPoints = ACTION_POINTS_MAX;
         #endregion
@@ -58,6 +59,10 @@ namespace LuminaStudio.Unit
             }
         }
 
+        public Animator GetAnimator()
+        {
+            return _animator;
+        }
         public MovementAction GetMoveAction()
         {
             return _movementAction;

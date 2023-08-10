@@ -18,7 +18,7 @@ namespace LuminaStudio.Unit.Actions
         protected virtual void Awake()
         {
             Unit = GetComponent<Unit>();
-            Animator = GetComponent<Animator>();
+            Animator = Unit.GetAnimator();
         }
 
         public abstract string GetActionName();
