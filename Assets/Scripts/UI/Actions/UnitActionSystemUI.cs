@@ -29,20 +29,19 @@ namespace LuminaStudio.UI.Actions
             UnitActionSystem.Instance.OnSelectedUnitChanged += OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnSelectedActionChanged += OnSelectedActionChanged;
             UnitActionSystem.Instance.OnBusyChanged += OnBusyChanged;
-            UnitActionSystem.Instance.OnActiontarted += OnActionStarted;
+            UnitActionSystem.Instance.OnActionStarted += OnActionStarted;
             TurnSystem.Instance.OnEndTurn += OnEndTurn;
             Unit.Unit.OnAnyActionPointsChanged += OnAnyActionPointsChanged;
+
+            this.gameObject.SetActive(false);
         }
         private void CreateUnitActionButtons()
         {
             // Clean Up
-            foreach (Transform buttonTransform in m_actionButtonContainerTransform)
-            {
-                Destroy(buttonTransform.gameObject);
-            }
-            _actionButtonUIList.Clear();
+            ClearUI();
 
             // Instantiate
+            this.gameObject.SetActive(true);
             _selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
             foreach (BaseAction baseAction in _selectedUnit.GetActionArray())
             {
@@ -85,6 +84,15 @@ namespace LuminaStudio.UI.Actions
             {
                 this.gameObject.SetActive(false);
             }
+        }
+
+        private void ClearUI()
+        {
+            foreach (Transform buttonTransform in m_actionButtonContainerTransform)
+            {
+                Destroy(buttonTransform.gameObject);
+            }
+            _actionButtonUIList.Clear();
         }
 
         private void OnActionStarted(object sender, EventArgs empty)

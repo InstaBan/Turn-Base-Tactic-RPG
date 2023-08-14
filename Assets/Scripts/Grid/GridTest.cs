@@ -18,7 +18,7 @@ namespace LuminaStudio.Grid
             if (Input.GetKeyDown(KeyCode.T))
             {
                 GridSystemVisual.Instance.HideAllVisual();
-                _validPositions = _unit.GetMoveAction().GetValidGridPositions();
+                //_validPositions = _unit.GetMoveAction().GetValidGridPositions();
                 GridSystemVisual.Instance.ShowAllVisual(_validPositions);
             }
         }

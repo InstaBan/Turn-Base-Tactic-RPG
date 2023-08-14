@@ -15,7 +15,7 @@ namespace LuminaStudio.Unit
         private const int ACTION_POINTS_MAX = 2;
         [SerializeField]
         private Animator _animator;
-        private GridPosition _gridPosition;
+        //private GridPosition _gridPosition;
         private int _actionPoints = ACTION_POINTS_MAX;
         #endregion
 
@@ -42,21 +42,20 @@ namespace LuminaStudio.Unit
 
         private void Start()
         {
-            _gridPosition = GridLevel.Instance.GetGridPosition(transform.position);
-            GridLevel.Instance.AddUnitAtGridPosition(_gridPosition, this);
+            //_gridPosition = GridLevel.Instance.GetGridPosition(transform.position);
+            //GridLevel.Instance.AddUnitAtGridPosition(_gridPosition, this);
 
             // Listen to Events
             TurnSystem.Instance.OnEndTurn += OnEndTurn;
         }
         private void Update()
         {
-
-            GridPosition newPos = GridLevel.Instance.GetGridPosition(transform.position);
-            if (newPos != _gridPosition)
-            {
-                GridLevel.Instance.UpdateUnitAtGridPosition(this, _gridPosition, newPos);
-                _gridPosition = newPos;
-            }
+            //GridPosition newPos = GridLevel.Instance.GetGridPosition(transform.position);
+            //if (newPos != _gridPosition)
+            //{
+            //    GridLevel.Instance.UpdateUnitAtGridPosition(this, _gridPosition, newPos);
+            //    _gridPosition = newPos;
+            //}
         }
 
         public Animator GetAnimator()
@@ -73,10 +72,10 @@ namespace LuminaStudio.Unit
             return _testAction;
         }
 
-        public GridPosition GetGridPosition()
-        {
-            return _gridPosition;
-        }
+        //public GridPosition GetGridPosition()
+        //{
+        //    return _gridPosition;
+        //}
 
         public BaseAction[] GetActionArray()
         {

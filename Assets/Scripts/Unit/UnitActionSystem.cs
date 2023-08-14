@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
 using LuminaStudio.Unit.Actions;
@@ -14,9 +15,11 @@ namespace LuminaStudio.Unit
         public event EventHandler OnSelectedUnitChanged;
         public event EventHandler OnSelectedActionChanged;
         public event EventHandler<bool> OnBusyChanged;
-        public event EventHandler OnActiontarted;
+        public event EventHandler OnActionStarted;
         [SerializeField]
         private Unit _selectedUnit;
+
+        private List<Unit> _targetUnitList;
         private LayerMask _layerMask;
         private bool _isBusy;
         private BaseAction _selectedAction;
@@ -84,17 +87,17 @@ namespace LuminaStudio.Unit
         {
             if (InputManager.IsMouseLeftClicked())
             {
-                var mouseGridPosition = 
-                    GridLevel.Instance.GetGridPosition(InputManager.GetMousePosition());
-
+                //var mouseGridPosition =
+                //    GridLevel.Instance.GetGridPosition(InputManager.GetMousePosition());
                 if (_selectedAction == null) return;
-                if (!_selectedAction.IsValidGridPosition(mouseGridPosition)) return;
+                //if (!_selectedAction.IsValidGridPosition(mouseGridPosition)) return;
+                if (!_selectedAction.IsValidPositionOrTarget()) return;
                 if (!_selectedUnit.TryExecuteAction(_selectedAction)) return;
 
                 EnterBusy();
                 var args = _selectedAction.GenerateArgs();
                 _selectedAction.TakeAction(args, QuitBusy);
-                OnActiontarted.Invoke(this, EventArgs.Empty);
+                OnActionStarted.Invoke(this, EventArgs.Empty);
             }
         }
 

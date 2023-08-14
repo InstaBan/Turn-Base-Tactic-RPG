@@ -70,7 +70,7 @@ namespace LuminaStudio.Grid
             // WARNING: Please call it with event later
             var selectedAction = UnitActionSystem.Instance.GetSelectedAction();
             if (selectedAction == null) return;
-            ShowAllVisual(selectedAction.GetValidGridPositions());
+            //ShowAllVisual(selectedAction.GetValidGridPositions());
         }
     }
 }

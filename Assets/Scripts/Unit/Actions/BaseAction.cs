@@ -25,15 +25,20 @@ namespace LuminaStudio.Unit.Actions
 
         public abstract void TakeAction(ActionArgs args, Action onActionComplete);
 
-
-        public virtual bool IsValidGridPosition(GridPosition gridPosition)
-        {
-            List<GridPosition> validPositionsList = GetValidGridPositions();
-            return validPositionsList.Contains(gridPosition);
-        }
-
-        public abstract List<GridPosition> GetValidGridPositions();
+        public abstract bool IsValidPositionOrTarget();
 
         public abstract int GetActionResourceCost();
+
+        #region Grid
+
+        //public virtual bool IsValidGridPosition(GridPosition gridPosition)
+        //{
+        //    List<GridPosition> validPositionsList = GetValidGridPositions();
+        //    return validPositionsList.Contains(gridPosition);
+        //}
+
+        //public abstract List<GridPosition> GetValidGridPositions();
+
+        #endregion
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ namespace LuminaStudio.Unit.Actions
     public class TestAction : BaseAction
     {
         private float _totalSpinAmount;
+        private List<Unit> _targetUnitsList;
+        //private int _targetAmount = 2;
 
         public override ActionArgs GenerateArgs()
         {
@@ -17,6 +20,7 @@ namespace LuminaStudio.Unit.Actions
         protected override void Awake()
         {
             base.Awake();
+            _targetUnitsList = new();
         }
 
         private void Update()
@@ -24,7 +28,10 @@ namespace LuminaStudio.Unit.Actions
             if (!IsActive) return;
 
             float spinAmount = 360f * Time.deltaTime;
-            transform.eulerAngles += new Vector3(0, spinAmount, 0);
+            foreach (var target in _targetUnitsList)
+            {
+                target.transform.eulerAngles += new Vector3(0, spinAmount, 0);
+            }
             _totalSpinAmount += spinAmount;
             if (_totalSpinAmount >= 360f)
             {
@@ -32,16 +39,11 @@ namespace LuminaStudio.Unit.Actions
                 OnActionComplete();
             }
         }
-        public override List<GridPosition> GetValidGridPositions()
+        public override bool IsValidPositionOrTarget()
         {
-            List<GridPosition> validGridPositions = new List<GridPosition>();
-            GridPosition unitGridPosition = Unit.GetGridPosition();
-
-            // only need current selected unit's position
-            return new List<GridPosition>()
-            {
-                unitGridPosition
-            };
+            _targetUnitsList.Clear();
+            _targetUnitsList.Add(UnitActionSystem.Instance.GetSelectedUnit());
+            return _targetUnitsList.Count != 0;
         }
 
         public override string GetActionName()
