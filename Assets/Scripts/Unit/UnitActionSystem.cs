@@ -59,21 +59,18 @@ namespace LuminaStudio.Unit
         }
         private bool SelectUnit()
         {
-            if (!InputManager.IsMouseLeftClicked()) return false;
+            if (!InputManager.IsMouseLeftClicked())
+                return false;
 
             var ray = InputManager.GetRayCast();
-            if (Physics.Raycast(ray, out RaycastHit _hit, float.MaxValue, _layerMask))
+            if (Physics.Raycast(ray, out RaycastHit _hit, float.MaxValue, _layerMask) 
+                && _hit.transform.TryGetComponent<Unit>(out Unit unit) 
+                && unit != _selectedUnit && unit.isPlayerFaction())
             {
-                if (_hit.transform.TryGetComponent<Unit>(out Unit unit))
-                {
-                    if (unit == _selectedUnit)
-                    {
-                        return false;
-                    }
-                    SetSelectedUnit(unit);
-                    return true;
-                }
+                SetSelectedUnit(unit);
+                return true;
             }
+
             return false;
         }
 
