@@ -27,6 +27,7 @@ namespace LuminaStudio.Unit.Actions
 
         public abstract bool IsValidPositionOrTarget();
 
+        // REPLACE INT WITH TYPE/COST STRUCT OR CLASS LATER
         public abstract int GetActionResourceCost();
 
         #region Grid

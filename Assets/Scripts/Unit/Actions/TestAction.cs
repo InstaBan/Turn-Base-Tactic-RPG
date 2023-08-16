@@ -20,7 +20,7 @@ namespace LuminaStudio.Unit.Actions
         protected override void Awake()
         {
             base.Awake();
-            _targetUnitsList = new();
+            _targetUnitsList = new List<Unit>();
         }
 
         private void Update()

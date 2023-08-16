@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
 using LuminaStudio.Unit.Actions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -72,6 +73,35 @@ namespace LuminaStudio.Unit
             }
 
             return false;
+        }
+        public Unit GetSelectedTargetUnit()
+        {
+            var ray = InputManager.GetRayCast();
+            if (Physics.Raycast(ray, out RaycastHit _hit, float.MaxValue, _layerMask)
+                && _hit.transform.TryGetComponent<Unit>(out Unit unit))
+            {
+                return unit;
+            }
+
+            return null;
+        }
+        public List<Unit> GetViableTargetList(float range, bool isPlayerFaction)
+        {
+            var unitsInRange = new List<Unit>();
+            var allUnits = GameObject.FindObjectsByType<Unit>(FindObjectsSortMode.None);
+
+            foreach (var unit in allUnits)
+            {
+                if (unit.isPlayerFaction() != isPlayerFaction) 
+                    continue;
+                var distance = Vector3.Distance(unit.transform.position, _selectedUnit.transform.position);
+                if (distance < range)
+                {
+                    unitsInRange.Add(unit);
+                }
+            }
+
+            return unitsInRange;
         }
 
         private void SetSelectedUnit(Unit unit)

@@ -101,11 +101,6 @@ namespace LuminaStudio.Unit
             return _actionPoints >= action.GetActionResourceCost();
         }
 
-        public bool isPlayerFaction()
-        {
-            return _faction == 0;
-        }
-
         public int GetActionPoints()
         {
             return _actionPoints;
@@ -115,6 +110,10 @@ namespace LuminaStudio.Unit
         {
             _actionPoints -= amount;
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+        public bool isPlayerFaction()
+        {
+            return _faction == 0;
         }
 
         #region Turn
