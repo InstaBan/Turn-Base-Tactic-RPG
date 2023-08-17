@@ -22,6 +22,16 @@ namespace LuminaStudio.Unit.Actions
             _possibleTargetUnitList = new List<Unit>();
         }
 
+        private void Update()
+        {
+            if (!IsActive)
+                return;
+            IsActive = false;
+            
+            Debug.Log("ye");
+            OnActionComplete();
+        }
+
         public override ActionArgs GenerateArgs()
         {
             var targetUnit = UnitActionSystem.Instance.GetSelectedTargetUnit();
@@ -38,9 +48,7 @@ namespace LuminaStudio.Unit.Actions
             this.OnActionComplete = onActionComplete;
             IsActive = true;
             
-            Debug.Log("ye");
             
-            IsActive = false;
         }
 
         public override bool IsValidPositionOrTarget()
