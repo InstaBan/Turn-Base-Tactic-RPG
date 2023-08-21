@@ -8,12 +8,18 @@ namespace LuminaStudio.Unit.Actions
     public class ShootAction : BaseAction
     {
         private List<Unit> _possibleTargetUnitList;
+        private Unit _targetUnit;
         [SerializeField]
         private float _range = 20f;
 
         public class ShootArgs : ActionArgs
         {
             public Unit TargetUnit;
+        }
+        public override ActionArgs GenerateArgs()
+        {
+            _targetUnit = UnitActionSystem.Instance.GetSelectedTargetUnit();
+            return new ShootArgs() { TargetUnit = _targetUnit };
         }
 
         protected override void Awake()
@@ -26,16 +32,11 @@ namespace LuminaStudio.Unit.Actions
         {
             if (!IsActive)
                 return;
-            IsActive = false;
-            
-            Debug.Log("ye");
-            OnActionComplete();
-        }
-
-        public override ActionArgs GenerateArgs()
-        {
-            var targetUnit = UnitActionSystem.Instance.GetSelectedTargetUnit();
-            return new ShootArgs() { TargetUnit = targetUnit };
+            Debug.Log("Valid targets count: " 
+                      + _possibleTargetUnitList.Count 
+                      +"\n Selected target: " 
+                      + _targetUnit.name);
+            ActionComplete();
         }
 
         public override string GetActionName()
@@ -45,10 +46,7 @@ namespace LuminaStudio.Unit.Actions
 
         public override void TakeAction(ActionArgs args, Action onActionComplete)
         {
-            this.OnActionComplete = onActionComplete;
-            IsActive = true;
-            
-            
+            Actionstart(onActionComplete);
         }
 
         public override bool IsValidPositionOrTarget()

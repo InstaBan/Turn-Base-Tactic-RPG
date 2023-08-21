@@ -57,8 +57,7 @@ namespace LuminaStudio.Unit.Actions
             else
             {
                 Animator.SetBool("isMoving", false);
-                IsActive = false;
-                OnActionComplete();
+                ActionComplete();
             }
         }
 
@@ -126,9 +125,8 @@ namespace LuminaStudio.Unit.Actions
         public override void TakeAction(ActionArgs parameters, Action onActionComplete)
         {
             var movementParameters = (MoveArgs)parameters;
-            this.OnActionComplete = onActionComplete;
+            Actionstart(onActionComplete);
             _destination = movementParameters.TargetPosition;
-            IsActive = true;
         }
     }
 }
