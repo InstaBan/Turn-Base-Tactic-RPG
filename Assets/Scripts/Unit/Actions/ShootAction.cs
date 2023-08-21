@@ -7,15 +7,29 @@ namespace LuminaStudio.Unit.Actions
 {
     public class ShootAction : BaseAction
     {
-        private List<Unit> _possibleTargetUnitList;
-        private Unit _targetUnit;
-        [SerializeField]
-        private float _range = 20f;
+        #region Events
+
+        public event EventHandler<OnShootEventArgs> OnstartShoot;
 
         public class ShootArgs : ActionArgs
         {
             public Unit TargetUnit;
         }
+
+        public class OnShootEventArgs : EventArgs
+        {
+            public Unit targetUnit;
+            public Unit rootUnit;
+        }
+
+        #endregion
+        private List<Unit> _possibleTargetUnitList;
+        private Unit _targetUnit;
+        [SerializeField]
+        private float _range = 20f;
+
+        private bool _isAiming;
+
         public override ActionArgs GenerateArgs()
         {
             _targetUnit = UnitActionSystem.Instance.GetSelectedTargetUnit();
@@ -28,8 +42,17 @@ namespace LuminaStudio.Unit.Actions
             _possibleTargetUnitList = new List<Unit>();
         }
 
+        private void Start()
+        {
+            UnitActionSystem.Instance.OnSelectedActionChanged += IsActionSelected;
+        }
+
         private void Update()
         {
+            if (_isAiming)
+            {
+                transform.forward = Vector3.Lerp(transform.forward, InputManager.GetMousePosition(), Time.deltaTime * 10f);
+            }
             if (!IsActive)
                 return;
             Debug.Log("Valid targets count: " 
@@ -37,6 +60,13 @@ namespace LuminaStudio.Unit.Actions
                       +"\n Selected target: " 
                       + _targetUnit.name);
             ActionComplete();
+        }
+
+        private void Shoot()
+        {
+            transform.forward = _targetUnit.GetWorldPosition();
+            _isAiming = false;
+            _targetUnit.OnDamage();
         }
 
         public override string GetActionName()
@@ -47,6 +77,12 @@ namespace LuminaStudio.Unit.Actions
         public override void TakeAction(ActionArgs args, Action onActionComplete)
         {
             Actionstart(onActionComplete);
+            Shoot();
+            OnstartShoot?.Invoke(this, new OnShootEventArgs()
+            {
+                targetUnit = _targetUnit,
+                rootUnit = rootUnit
+            });
         }
 
         public override bool IsValidPositionOrTarget()
@@ -59,6 +95,11 @@ namespace LuminaStudio.Unit.Actions
         public override int GetActionResourceCost()
         {
             return 1;
+        }
+
+        private void IsActionSelected(object sender, EventArgs evt)
+        {
+            _isAiming = UnitActionSystem.Instance.GetSelectedAction() == this;
         }
     }
 }

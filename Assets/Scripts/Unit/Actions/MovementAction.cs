@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using LuminaStudio.Core.Input;
 using LuminaStudio.Grid;
+using UnityEditor.Build;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -9,6 +10,13 @@ namespace LuminaStudio.Unit.Actions
 {
     public class MovementAction : BaseAction
     {
+        #region Events
+
+        public event EventHandler OnstartMoving;
+        public event EventHandler OnstopMoving;
+
+        #endregion
+
         #region attributes
         private float _stoppingDistance = 0.1f;
         [SerializeField]
@@ -52,11 +60,10 @@ namespace LuminaStudio.Unit.Actions
                 var direction = (_destination - transform.position).normalized;
                 transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * 10f);
                 transform.position += direction * _movementSpeed * Time.deltaTime;
-                Animator.SetBool("isMoving", true);
             }
             else
             {
-                Animator.SetBool("isMoving", false);
+                OnstopMoving?.Invoke(this, EventArgs.Empty);
                 ActionComplete();
             }
         }
@@ -74,7 +81,7 @@ namespace LuminaStudio.Unit.Actions
         //{
         //    List<GridPosition> validGridPositions = new List<GridPosition>();
 
-        //    GridPosition unitGridPosition = Unit.GetGridPosition();
+        //    GridPosition unitGridPosition = rootUnit.GetGridPosition();
 
         //    for (int x = -_movementRange; x <= _movementRange; x++)
         //    {
@@ -127,6 +134,7 @@ namespace LuminaStudio.Unit.Actions
             var movementParameters = (MoveArgs)parameters;
             Actionstart(onActionComplete);
             _destination = movementParameters.TargetPosition;
+            OnstartMoving?.Invoke(this, EventArgs.Empty);
         }
     }
 }

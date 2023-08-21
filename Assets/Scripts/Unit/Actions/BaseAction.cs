@@ -7,8 +7,7 @@ namespace LuminaStudio.Unit.Actions
 {
     public abstract class BaseAction : MonoBehaviour
     {
-        protected Unit Unit;
-        protected Animator Animator;
+        protected Unit rootUnit;
         protected bool IsActive;
         protected Action OnActionComplete;
 
@@ -17,8 +16,7 @@ namespace LuminaStudio.Unit.Actions
 
         protected virtual void Awake()
         {
-            Unit = GetComponent<Unit>();
-            Animator = Unit.GetAnimator();
+            rootUnit = GetComponent<Unit>();
         }
 
         public abstract string GetActionName();

@@ -15,7 +15,8 @@ namespace LuminaStudio.Unit
         private const int ACTION_POINTS_MAX = 2;
         [SerializeField]
         private Animator _animator;
-
+        [SerializeField] 
+        private Transform _root_body;
         [SerializeField] 
         private int _faction; // replace with actual faction later
         //private GridPosition _gridPosition;
@@ -59,6 +60,16 @@ namespace LuminaStudio.Unit
             //    GridLevel.Instance.UpdateUnitAtGridPosition(this, _gridPosition, newPos);
             //    _gridPosition = newPos;
             //}
+        }
+
+        public Vector3 GetWorldPosition()
+        {
+            return transform.position;
+        }
+
+        public Vector3 GetWorldPositionBody()
+        {
+            return _root_body.position;
         }
 
         public Animator GetAnimator()
@@ -111,9 +122,14 @@ namespace LuminaStudio.Unit
             _actionPoints -= amount;
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }
-        public bool isPlayerFaction()
+        public bool IsPlayerFaction()
         {
             return _faction == 0;
+        }
+
+        public void OnDamage()
+        {
+            Debug.Log(this.name + " Damaged!" );
         }
 
         #region Turn
