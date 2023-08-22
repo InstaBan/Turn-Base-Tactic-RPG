@@ -130,5 +130,10 @@ namespace LuminaStudio.Unit.Actions
             _destination = movementParameters.TargetPosition;
             IsActive = true;
         }
+
+        public float GetMovementRange()
+        {
+            return this._movementRange;
+        }
     }
 }
