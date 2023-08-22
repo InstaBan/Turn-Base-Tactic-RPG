@@ -39,6 +39,9 @@ namespace LuminaStudio.Unit.Actions
             IsActive = false;
             OnActionComplete();
         }
+        public abstract void OnActionSelected(object sender, EventArgs evt);
+
+        public abstract void OnUnitSelected(object sender, EventArgs evt);
         #region Grid
 
         //public virtual bool IsValidGridPosition(GridPosition gridPosition)

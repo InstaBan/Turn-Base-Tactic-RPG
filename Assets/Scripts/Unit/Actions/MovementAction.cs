@@ -141,5 +141,17 @@ namespace LuminaStudio.Unit.Actions
         {
             return this._movementRange;
         }
+
+        public override void OnActionSelected(object sender, EventArgs evt)
+        {
+            if (UnitActionSystem.Instance.GetSelectedAction() == this)
+            {
+                
+            }
+        }
+        public override void OnUnitSelected(object sender, EventArgs evt)
+        {
+
+        }
     }
 }

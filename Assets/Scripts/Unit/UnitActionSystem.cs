@@ -13,17 +13,33 @@ namespace LuminaStudio.Unit
     {
         public static UnitActionSystem Instance { get; private set; }
 
+        #region Events
+        /// <summary>
+        /// Global Event: Triggered when selected unit changes.
+        /// </summary>
         public event EventHandler OnSelectedUnitChanged;
+        /// <summary>
+        /// Global Event: Triggered when selected action changes.
+        /// </summary>
         public event EventHandler OnSelectedActionChanged;
+        /// <summary>
+        /// Global Event: Triggered when entering / finishing current action.
+        /// </summary>
         public event EventHandler<bool> OnBusyChanged;
+        /// <summary>
+        /// Global Event: Triggered when selected action gets called.
+        /// </summary>
         public event EventHandler OnActionStarted;
+        #endregion
+
+        #region Attributes
         [SerializeField]
         private Unit _selectedUnit;
-
         private List<Unit> _targetUnitList;
         private LayerMask _layerMask;
         private bool _isBusy;
         private BaseAction _selectedAction;
+        #endregion
 
         private void Awake()
         {
@@ -125,6 +141,7 @@ namespace LuminaStudio.Unit
                 var args = _selectedAction.GenerateArgs();
                 _selectedAction.TakeAction(args, QuitBusy);
                 OnActionStarted.Invoke(this, EventArgs.Empty);
+                ResetSelectedAction();
             }
         }
 
@@ -138,6 +155,13 @@ namespace LuminaStudio.Unit
             _selectedAction = baseAction;
             OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        public void ResetSelectedAction()
+        {
+            _selectedAction = null;
+            OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public bool IsSelectedAction(BaseAction action)
         {
             return action == _selectedAction;

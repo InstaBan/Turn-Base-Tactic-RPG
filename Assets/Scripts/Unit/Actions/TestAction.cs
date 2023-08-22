@@ -60,5 +60,14 @@ namespace LuminaStudio.Unit.Actions
             Actionstart(onActionComplete);
             _totalSpinAmount = 0f;
         }
+
+        public override void OnActionSelected(object sender, EventArgs evt)
+        {
+            
+        }
+        public override void OnUnitSelected(object sender, EventArgs evt)
+        {
+
+        }
     }
 }

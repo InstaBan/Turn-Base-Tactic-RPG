@@ -76,15 +76,6 @@ namespace LuminaStudio.Unit
         {
             return _animator;
         }
-        public MovementAction GetMoveAction()
-        {
-            return _movementAction;
-        }
-
-        public TestAction GeTestAction()
-        {
-            return _testAction;
-        }
 
         //public GridPosition GetGridPosition()
         //{

@@ -25,6 +25,7 @@ namespace LuminaStudio.Unit.Actions
         #endregion
         private List<Unit> _possibleTargetUnitList;
         private Unit _targetUnit;
+        private Vector3 _originalPosition;
         [SerializeField]
         private float _range = 20f;
 
@@ -44,7 +45,8 @@ namespace LuminaStudio.Unit.Actions
 
         private void Start()
         {
-            UnitActionSystem.Instance.OnSelectedActionChanged += IsActionSelected;
+            UnitActionSystem.Instance.OnSelectedActionChanged += OnActionSelected;
+            UnitActionSystem.Instance.OnSelectedUnitChanged += OnUnitSelected;
         }
 
         private void Update()
@@ -62,9 +64,14 @@ namespace LuminaStudio.Unit.Actions
             ActionComplete();
         }
 
+        private void LookAt(Vector3 position)
+        {
+            transform.forward = position;
+        }
+
         private void Shoot()
         {
-            transform.forward = _targetUnit.GetWorldPosition();
+            LookAt(_targetUnit.GetWorldPosition());
             _isAiming = false;
             _targetUnit.OnDamage();
         }
@@ -97,9 +104,19 @@ namespace LuminaStudio.Unit.Actions
             return 1;
         }
 
-        private void IsActionSelected(object sender, EventArgs evt)
+        public override void OnActionSelected(object sender, EventArgs evt)
         {
+            _originalPosition = rootUnit.GetWorldPosition();
             _isAiming = UnitActionSystem.Instance.GetSelectedAction() == this;
+        }
+        public override void OnUnitSelected(object sender, EventArgs evt)
+        {
+            var unit = UnitActionSystem.Instance.GetSelectedUnit();
+            if (UnitActionSystem.Instance.GetSelectedUnit() != rootUnit)
+            {
+                _isAiming = false;
+                LookAt(_originalPosition);
+            }
         }
     }
 }
