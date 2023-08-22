@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 568288ad394be9847926b66d85e95122, type: 2}
+  - {fileID: 2100000, guid: 3e2e6c31e222d9343b0151e8c3c12687, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 5277517466177676082}
   - component: {fileID: 2563778832047881259}
   - component: {fileID: 3921619088608302959}
+  - component: {fileID: 242821895407317640}
   - component: {fileID: 6091195757877370433}
   m_Layer: 7
   m_Name: Unit_Enemy1
@@ -132,6 +133,7 @@ Transform:
   m_Children:
   - {fileID: 1212415540243318076}
   - {fileID: 2435135113161836367}
+  - {fileID: 3167872193160080605}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -148,6 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 5058511421069860678}
+  _root_body: {fileID: 3167872193160080605}
+  _faction: 0
 --- !u!114 &2563778832047881259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +178,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8daafa7dfc9b713459de2c4ff3ca25f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &242821895407317640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8254256302770983913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659019038b39eb44faf270a9a9b43ba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 5058511421069860678}
+  m_projectileStartingPoint: {fileID: 0}
+  m_arrowProjectilePrefab: {fileID: 0}
 --- !u!136 &6091195757877370433
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -197,6 +216,37 @@ CapsuleCollider:
   m_Height: 2.015823
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!1 &8267550138621997912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3167872193160080605}
+  m_Layer: 7
+  m_Name: root_body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3167872193160080605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8267550138621997912}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8220761185400316832}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5370430529462760539
 PrefabInstance:
   m_ObjectHideFlags: 0

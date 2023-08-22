@@ -20,7 +20,7 @@ namespace LuminaStudio.Unit.Actions
         protected override void Awake()
         {
             base.Awake();
-            _targetUnitsList = new();
+            _targetUnitsList = new List<Unit>();
         }
 
         private void Update()
@@ -35,8 +35,7 @@ namespace LuminaStudio.Unit.Actions
             _totalSpinAmount += spinAmount;
             if (_totalSpinAmount >= 360f)
             {
-                IsActive = false;
-                OnActionComplete();
+                ActionComplete();
             }
         }
         public override bool IsValidPositionOrTarget()
@@ -58,9 +57,8 @@ namespace LuminaStudio.Unit.Actions
 
         public override void TakeAction(ActionArgs args, Action onActionComplete)
         {
-            this.OnActionComplete = onActionComplete;
+            Actionstart(onActionComplete);
             _totalSpinAmount = 0f;
-            IsActive = true;
         }
     }
 }

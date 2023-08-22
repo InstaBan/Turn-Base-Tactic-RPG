@@ -71,7 +71,10 @@ namespace LuminaStudio.UI.Actions
         }
         private void UpdateActionPoints()
         {
-            m_actionPointsText.text = "Action Points: " + _selectedUnit.GetActionPoints();
+            if (_selectedUnit != null)
+            {
+                m_actionPointsText.text = "Action Points: " + _selectedUnit.GetActionPoints();
+            }
         }
 
         private void OnBusyChanged(object sender, bool isBusy)
