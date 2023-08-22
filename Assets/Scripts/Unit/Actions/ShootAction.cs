@@ -107,7 +107,15 @@ namespace LuminaStudio.Unit.Actions
         public override void OnActionSelected(object sender, EventArgs evt)
         {
             _originalPosition = rootUnit.GetWorldPosition();
-            _isAiming = UnitActionSystem.Instance.GetSelectedAction() == this;
+            if (UnitActionSystem.Instance.GetSelectedAction() != this)
+            {
+                _isAiming = false;
+                LookAt(_originalPosition);
+            }
+            else
+            {
+                _isAiming = true;
+            }
         }
         public override void OnUnitSelected(object sender, EventArgs evt)
         {

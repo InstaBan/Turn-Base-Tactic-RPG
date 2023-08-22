@@ -10,7 +10,7 @@ namespace LuminaStudio.Core.Cameras
         [SerializeField] 
         private float _moveSpeed = 10f;
         [SerializeField]
-        private float _rotationSpeed = 100f;
+        private float _rotationSpeed = 200f;
         [SerializeField]
         private float _zoomSpeed = 5f;
         [SerializeField] 
