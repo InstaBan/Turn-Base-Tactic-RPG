@@ -19,7 +19,7 @@ namespace LuminaStudio.Unit.Actions
         public class OnShootEventArgs : EventArgs
         {
             public Unit targetUnit;
-            public Unit rootUnit;
+            public Unit thisUnit;
         }
 
         #endregion
@@ -97,7 +97,7 @@ namespace LuminaStudio.Unit.Actions
             OnstartShoot?.Invoke(this, new OnShootEventArgs()
             {
                 targetUnit = _targetUnit,
-                rootUnit = rootUnit
+                thisUnit = rootUnit
             });
         }
 
@@ -131,7 +131,6 @@ namespace LuminaStudio.Unit.Actions
         }
         public override void OnUnitSelected(object sender, EventArgs evt)
         {
-            var unit = UnitActionSystem.Instance.GetSelectedUnit();
             if (UnitActionSystem.Instance.GetSelectedUnit() == rootUnit) 
                 return;
             _isAiming = false;
