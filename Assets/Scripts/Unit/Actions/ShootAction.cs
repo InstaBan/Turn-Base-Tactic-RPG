@@ -25,7 +25,7 @@ namespace LuminaStudio.Unit.Actions
         #endregion
         private List<Unit> _possibleTargetUnitList;
         private Unit _targetUnit;
-        private Vector3 _originalPosition;
+        private Quaternion _originalLookAt;
         [SerializeField]
         private float _range = 20f;
 
@@ -53,8 +53,9 @@ namespace LuminaStudio.Unit.Actions
         {
             if (_isAiming)
             {
-                Debug.Log(transform.position);
-                transform.forward = Vector3.Lerp(transform.forward, InputManager.GetMousePosition(), Time.deltaTime * 10f);
+                LookAt(Vector3.Lerp(transform.position, InputManager.GetMousePosition(), Time.deltaTime * 10f));
+                Debug.DrawRay(transform.position, Vector3.up * 20, Color.red );
+                Debug.DrawRay(InputManager.GetMousePosition(), Vector3.up * 20, Color.red);
             }
             if (!IsActive)
                 return;
@@ -67,7 +68,14 @@ namespace LuminaStudio.Unit.Actions
 
         private void LookAt(Vector3 position)
         {
-            transform.forward = position;
+            var forwardDirection = position - transform.position;
+            var newRotation = Quaternion.LookRotation(forwardDirection, Vector3.up);
+            transform.rotation = newRotation;
+        }
+
+        private void ResetRotation(Quaternion rotation)
+        {
+            transform.rotation = rotation;
         }
 
         private void Shoot()
@@ -107,11 +115,14 @@ namespace LuminaStudio.Unit.Actions
 
         public override void OnActionSelected(object sender, EventArgs evt)
         {
-            _originalPosition = rootUnit.GetWorldPosition();
+            if (UnitActionSystem.Instance.GetSelectedAction() == this)
+            {
+                _originalLookAt = transform.rotation;
+            }
             if (UnitActionSystem.Instance.GetSelectedAction() != this)
             {
                 _isAiming = false;
-                LookAt(_originalPosition);
+                ResetRotation(_originalLookAt);
             }
             else
             {
@@ -121,10 +132,12 @@ namespace LuminaStudio.Unit.Actions
         public override void OnUnitSelected(object sender, EventArgs evt)
         {
             var unit = UnitActionSystem.Instance.GetSelectedUnit();
-            if (UnitActionSystem.Instance.GetSelectedUnit() != rootUnit)
+            if (UnitActionSystem.Instance.GetSelectedUnit() == rootUnit) 
+                return;
+            _isAiming = false;
+            if (UnitActionSystem.Instance.GetSelectedAction() == this)
             {
-                _isAiming = false;
-                LookAt(_originalPosition);
+                ResetRotation(_originalLookAt);
             }
         }
     }

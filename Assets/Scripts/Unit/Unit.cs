@@ -67,6 +67,11 @@ namespace LuminaStudio.Unit
             return transform.position;
         }
 
+        public Quaternion GetRotation()
+        {
+            return transform.rotation;
+        }
+
         public Vector3 GetWorldPositionBody()
         {
             return _root_body.position;
