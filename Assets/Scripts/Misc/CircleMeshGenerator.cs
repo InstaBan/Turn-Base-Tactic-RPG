@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using LuminaStudio.Core.Input;
 using UnityEngine;
 
-namespace LuminaStudio
+namespace LuminaStudio.Misc
 {
     public class CircleMeshGenerator : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using LuminaStudio.Unit;
 using LuminaStudio.Unit.Actions;
 using UnityEngine;
 
-namespace LuminaStudio.UI
+namespace LuminaStudio.UI.Indicators
 {
     public class LineDrawer : MonoBehaviour
     {

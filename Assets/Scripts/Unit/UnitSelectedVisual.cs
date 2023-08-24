@@ -25,5 +25,10 @@ namespace LuminaStudio.Unit
         {
             m_Renderer.enabled = _unit == UnitActionSystem.Instance.GetSelectedUnit();
         }
+
+        private void OnDestroy()
+        {
+            UnitActionSystem.Instance.OnSelectedUnitChanged -= OnselectedUnitChanged;
+        }
     }
 }

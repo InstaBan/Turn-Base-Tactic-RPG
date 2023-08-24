@@ -53,6 +53,7 @@ namespace LuminaStudio.Unit.Actions
         {
             if (_isAiming)
             {
+                Debug.Log(transform.position);
                 transform.forward = Vector3.Lerp(transform.forward, InputManager.GetMousePosition(), Time.deltaTime * 10f);
             }
             if (!IsActive)
@@ -71,8 +72,8 @@ namespace LuminaStudio.Unit.Actions
 
         private void Shoot()
         {
-            LookAt(_targetUnit.GetWorldPosition());
             _isAiming = false;
+            LookAt(_targetUnit.GetWorldPosition());
             _targetUnit.OnDamage();
         }
 
