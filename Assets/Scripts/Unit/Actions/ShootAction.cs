@@ -54,8 +54,6 @@ namespace LuminaStudio.Unit.Actions
             if (_isAiming)
             {
                 LookAt(Vector3.Lerp(transform.position, InputManager.GetMousePosition(), Time.deltaTime * 10f));
-                Debug.DrawRay(transform.position, Vector3.up * 20, Color.red );
-                Debug.DrawRay(InputManager.GetMousePosition(), Vector3.up * 20, Color.red);
             }
             if (!IsActive)
                 return;
