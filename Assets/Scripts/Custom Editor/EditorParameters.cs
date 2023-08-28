@@ -9,5 +9,12 @@ namespace LuminaStudio.Custom_Editor
         {
             fontSize = 14
         };
+
+        public enum Page
+        {
+            MainMenu,
+            EditorDataMenu,
+            EditorDataColor,
+        }
     }
 }

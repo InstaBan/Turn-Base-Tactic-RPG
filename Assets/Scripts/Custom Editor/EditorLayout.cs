@@ -13,7 +13,7 @@ namespace LuminaStudio.Custom_Editor
         {
             GUILayout.BeginHorizontal(); // Start a horizontal layout group
             GUILayout.FlexibleSpace(); // Push content to the left
-            GUILayout.Label("Editor Tools", style);
+            GUILayout.Label(label, style);
             GUILayout.FlexibleSpace(); // Push content to the right
             GUILayout.EndHorizontal(); // End the horizontal layout group
         }

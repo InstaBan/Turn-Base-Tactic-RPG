@@ -80,6 +80,7 @@ namespace LuminaStudio.Unit.Actions
         {
             _isAiming = false;
             LookAt(_targetUnit.GetWorldPosition());
+            _originalLookAt = transform.rotation;
             _targetUnit.OnDamage();
         }
 
