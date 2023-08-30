@@ -3,6 +3,7 @@ using UnityEngine;
 using LuminaStudio.Calculation.Logic;
 using LuminaStudio.Combat.Turn;
 using LuminaStudio.Core.Input;
+using LuminaStudio.Entity;
 using LuminaStudio.Grid;
 using LuminaStudio.Unit.Actions;
 
@@ -13,6 +14,8 @@ namespace LuminaStudio.Unit
         #region Attributes
 
         private const int ACTION_POINTS_MAX = 2;
+        [SerializeField]
+        private HealthSystem _healthSystem;
         [SerializeField]
         private Animator _animator;
         [SerializeField] 
@@ -35,6 +38,8 @@ namespace LuminaStudio.Unit
         private BaseAction[] _actionsArray;
         #endregion
 
+        #region Initialize
+
         private void Awake() // replace with OnstartClient when networked
         {
             //base.OnStartClient();
@@ -51,6 +56,7 @@ namespace LuminaStudio.Unit
 
             // Listen to Events
             TurnSystem.Instance.OnEndTurn += OnEndTurn;
+            _healthSystem.OnDeath += OnDeath;
         }
         private void Update()
         {
@@ -61,6 +67,19 @@ namespace LuminaStudio.Unit
             //    _gridPosition = newPos;
             //}
         }
+
+        #endregion
+
+        #region EventListeners
+
+        private void OnDeath(object sender, EventArgs args)
+        {
+            Destroy(gameObject);
+        }
+
+        #endregion
+
+        #region Getters
 
         public Vector3 GetWorldPosition()
         {
@@ -92,6 +111,16 @@ namespace LuminaStudio.Unit
             return this._actionsArray;
         }
 
+        public int GetActionPoints()
+        {
+            return _actionPoints;
+        }
+
+
+        #endregion
+
+        #region Validation
+
         public bool TryExecuteAction(BaseAction action)
         {
             if (CanTakeAction(action))
@@ -108,25 +137,28 @@ namespace LuminaStudio.Unit
             return _actionPoints >= action.GetActionResourceCost();
         }
 
-        public int GetActionPoints()
+        public bool IsPlayerFaction()
         {
-            return _actionPoints;
+            return _faction == 0;
         }
+
+        #endregion
 
         private void SpendActionPoints(int amount)
         {
             _actionPoints -= amount;
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }
-        public bool IsPlayerFaction()
+
+        #region Damage
+
+        public void OnDamage(int damageAmount)
         {
-            return _faction == 0;
+            _healthSystem.ReceiveDamage(damageAmount);
         }
 
-        public void OnDamage()
-        {
-            Debug.Log(this.name + " Damaged!" );
-        }
+        #endregion
+
 
         #region Turn
 

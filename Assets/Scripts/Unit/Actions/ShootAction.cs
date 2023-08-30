@@ -57,10 +57,6 @@ namespace LuminaStudio.Unit.Actions
             }
             if (!IsActive)
                 return;
-            Debug.Log("Valid targets count: " 
-                      + _possibleTargetUnitList.Count 
-                      +"\n Selected target: " 
-                      + _targetUnit.name);
             ActionComplete();
         }
 
@@ -81,7 +77,9 @@ namespace LuminaStudio.Unit.Actions
             _isAiming = false;
             LookAt(_targetUnit.GetWorldPosition());
             _originalLookAt = transform.rotation;
-            _targetUnit.OnDamage();
+
+            //WARNING: TESTING PURPOSE
+            _targetUnit.OnDamage(40);
         }
 
         public override string GetActionName()
