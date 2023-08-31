@@ -1,3 +1,4 @@
+using LuminaStudio.Scriptable.Data.Visual;
 using UnityEditor;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ namespace LuminaStudio.Custom_Editor.Data
 {
     public class EditorDataMenu : EditorWindow
     {
+        
         private void OnGUI()
         {
             EditorLayout.CenterLabel("Data Management", EditorParameters.HEADER_STYLE_BOLD_FONT14);
@@ -15,12 +17,12 @@ namespace LuminaStudio.Custom_Editor.Data
 
             if (GUILayout.Button("Color Data"))
             {
-                EditorMenu.Instance.ChangePage(EditorParameters.Page.MainMenu);
+                EditorMenu.Instance.ChangePage(EditorParameters.Page.EditorDataVisual);
             }
 
             if (GUILayout.Button("Back"))
             {
-                EditorMenu.Instance.ChangePage(EditorParameters.Page.MainMenu);
+                EditorMenu.Instance.ChangePage(EditorParameters.Page.EditorMenu);
             }
         }
     }

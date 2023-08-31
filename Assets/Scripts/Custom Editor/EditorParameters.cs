@@ -10,10 +10,16 @@ namespace LuminaStudio.Custom_Editor
             fontSize = 14
         };
 
+        internal static readonly GUIStyle HEADER_STYLE_BOLD_FONT20 = new(EditorStyles.boldLabel)
+        {
+            fontSize = 20
+        };
+
         public enum Page
         {
-            MainMenu,
+            EditorMenu,
             EditorDataMenu,
+            EditorDataVisual,
             EditorDataColor,
         }
     }

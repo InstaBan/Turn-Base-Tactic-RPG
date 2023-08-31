@@ -9,13 +9,14 @@ namespace LuminaStudio.Custom_Editor
     {
         public static EditorMenu Instance;
 
-        
-        public EditorParameters.Page currentPage = EditorParameters.Page.MainMenu;
+
+        public static EditorParameters.Page CurrentPage;
 
         [MenuItem("LUMINA/Menu")]
         public static void ShowWindow()
         {
             Instance = GetWindow<EditorMenu>("Menu");
+            CurrentPage = EditorParameters.Page.EditorMenu;
         }
 
         private void OnEnable()
@@ -25,13 +26,16 @@ namespace LuminaStudio.Custom_Editor
 
         private void OnGUI()
         {
-            switch (currentPage)
+            switch (CurrentPage)
             {
-                case EditorParameters.Page.MainMenu:
+                case EditorParameters.Page.EditorMenu:
                     Draw();
                     break;
                 case EditorParameters.Page.EditorDataMenu:
                     EditorDataMenu.Draw();
+                    break;
+                case EditorParameters.Page.EditorDataVisual:
+                    EditorDataVisual.Draw();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -40,7 +44,7 @@ namespace LuminaStudio.Custom_Editor
 
         public void ChangePage(EditorParameters.Page newPage)
         {
-            currentPage = newPage;
+            CurrentPage = newPage;
             Repaint();
         }
 
