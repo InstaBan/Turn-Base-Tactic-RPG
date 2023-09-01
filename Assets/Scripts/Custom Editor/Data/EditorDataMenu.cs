@@ -1,3 +1,4 @@
+using LuminaStudio.Custom_Editor.Data.Visual;
 using LuminaStudio.Scriptable.Data.Visual;
 using UnityEditor;
 using UnityEngine;
@@ -9,21 +10,23 @@ namespace LuminaStudio.Custom_Editor.Data
         
         private void OnGUI()
         {
-            EditorLayout.CenterLabel("Data Management", EditorParameters.HEADER_STYLE_BOLD_FONT14);
-        }
-        public static void Draw()
-        {
             EditorLayout.CenterLabel("Editor Data Tools", EditorParameters.HEADER_STYLE_BOLD_FONT14);
 
-            if (GUILayout.Button("Color Data"))
+            if (GUILayout.Button("Visual"))
             {
-                EditorMenu.Instance.ChangePage(EditorParameters.Page.EditorDataVisual);
+                EditorDataVisual.OnShow();
             }
 
             if (GUILayout.Button("Back"))
             {
-                EditorMenu.Instance.ChangePage(EditorParameters.Page.EditorMenu);
+                EditorMenu.OnShow();
             }
+        }
+        public static void OnShow()
+        {
+            EditorDataMenu window = GetWindow<EditorDataMenu>();
+            window.position = EditorMenu.Instance.position;
+            window.Show();
         }
     }
 }

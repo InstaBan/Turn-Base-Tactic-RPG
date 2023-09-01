@@ -1,5 +1,6 @@
 using System;
 using LuminaStudio.Custom_Editor.Data;
+using LuminaStudio.Custom_Editor.Data.Visual;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,8 +9,7 @@ namespace LuminaStudio.Custom_Editor
     public class EditorMenu : EditorWindow
     {
         public static EditorMenu Instance;
-
-
+        public static Rect WindowPosition;
         public static EditorParameters.Page CurrentPage;
 
         [MenuItem("LUMINA/Menu")]
@@ -17,44 +17,21 @@ namespace LuminaStudio.Custom_Editor
         {
             Instance = GetWindow<EditorMenu>("Menu");
             CurrentPage = EditorParameters.Page.EditorMenu;
+            WindowPosition = Instance.position;
         }
 
         private void OnEnable()
         {
-
+            
         }
 
         private void OnGUI()
-        {
-            switch (CurrentPage)
-            {
-                case EditorParameters.Page.EditorMenu:
-                    Draw();
-                    break;
-                case EditorParameters.Page.EditorDataMenu:
-                    EditorDataMenu.Draw();
-                    break;
-                case EditorParameters.Page.EditorDataVisual:
-                    EditorDataVisual.Draw();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public void ChangePage(EditorParameters.Page newPage)
-        {
-            CurrentPage = newPage;
-            Repaint();
-        }
-
-        public void Draw()
         {
             EditorLayout.CenterLabel("Editor Tools", EditorParameters.HEADER_STYLE_BOLD_FONT14);
 
             if (GUILayout.Button("Data Management"))
             {
-                EditorMenu.Instance.ChangePage(EditorParameters.Page.EditorDataMenu);
+                EditorDataMenu.OnShow();
             }
 
             if (GUILayout.Button("Test Two"))
@@ -64,6 +41,15 @@ namespace LuminaStudio.Custom_Editor
             }
         }
 
-        
+        public void ChangePage(EditorParameters.Page newPage)
+        {
+            CurrentPage = newPage;
+            Repaint();
+        }
+
+        public static void OnShow()
+        {
+            Instance.Show();
+        }
     }
 }

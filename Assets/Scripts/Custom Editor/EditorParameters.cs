@@ -20,7 +20,7 @@ namespace LuminaStudio.Custom_Editor
             EditorMenu,
             EditorDataMenu,
             EditorDataVisual,
-            EditorDataColor,
+            EditorDataVisualColor,
         }
     }
 }
