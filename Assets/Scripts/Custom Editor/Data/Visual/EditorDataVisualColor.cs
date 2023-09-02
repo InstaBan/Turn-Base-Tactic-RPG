@@ -32,6 +32,7 @@ namespace LuminaStudio.Custom_Editor.Data.Visual
             if (GUILayout.Button("Back"))
             {
                 EditorDataVisual.OnShow();
+                Close();
             }
         }
 

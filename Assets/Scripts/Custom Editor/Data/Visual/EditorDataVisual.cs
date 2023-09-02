@@ -14,11 +14,13 @@ namespace LuminaStudio.Custom_Editor.Data.Visual
             if (GUILayout.Button("Color Data"))
             {
                 EditorDataVisualColor.OnShow();
+                Close();
             }
 
             if (GUILayout.Button("Back"))
             {
                 EditorDataMenu.OnShow();
+                Close();
             }
         }
 

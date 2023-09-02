@@ -32,6 +32,7 @@ namespace LuminaStudio.Custom_Editor
             if (GUILayout.Button("Data Management"))
             {
                 EditorDataMenu.OnShow();
+                this.Close();
             }
 
             if (GUILayout.Button("Test Two"))
@@ -41,14 +42,9 @@ namespace LuminaStudio.Custom_Editor
             }
         }
 
-        public void ChangePage(EditorParameters.Page newPage)
-        {
-            CurrentPage = newPage;
-            Repaint();
-        }
-
         public static void OnShow()
         {
+            Instance = GetWindow<EditorMenu>("Menu");
             Instance.Show();
         }
     }

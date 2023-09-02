@@ -15,11 +15,13 @@ namespace LuminaStudio.Custom_Editor.Data
             if (GUILayout.Button("Visual"))
             {
                 EditorDataVisual.OnShow();
+                Close();
             }
 
             if (GUILayout.Button("Back"))
             {
                 EditorMenu.OnShow();
+                Close();
             }
         }
         public static void OnShow()
