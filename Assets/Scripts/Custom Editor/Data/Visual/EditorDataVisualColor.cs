@@ -9,16 +9,15 @@ namespace LuminaStudio.Custom_Editor.Data.Visual
     {
         private static ColorDataScriptable _colorData;
         private static List<ColorEntry> _colorList;
+        private List<bool> renameChecks;
+        string newName;
         private void OnGUI()
         {
             EditorLayout.CenterLabel("Color", EditorParameters.HEADER_STYLE_BOLD_FONT20);
 
             if (_colorList != null)
             {
-                foreach (var color in _colorList)
-                {
-                    color.colorValue = EditorGUILayout.ColorField("New Color", color.colorValue);
-                }
+                DrawColorFields(_colorList);
             }
 
             if (GUILayout.Button("Add"))
@@ -27,6 +26,7 @@ namespace LuminaStudio.Custom_Editor.Data.Visual
                 color.colorName = "New Color";
                 color.colorValue = Color.white;
                 _colorList.Add(color);
+                renameChecks.Add(false);
             }
 
             if (GUILayout.Button("Back"))
@@ -42,13 +42,61 @@ namespace LuminaStudio.Custom_Editor.Data.Visual
             ("Assets/ScriptableDatabase/Data/Visual/ColorData.asset",
                 typeof(ColorDataScriptable));
             _colorList = _colorData.ColorList;
-
+            renameChecks = new();
+            for (int i = 0; i < _colorList.Count; i++)
+            {
+                renameChecks.Add(false);
+            }
         }
         public static void OnShow()
         {
             EditorDataVisualColor window = GetWindow<EditorDataVisualColor>();
             window.position = EditorMenu.Instance.position;
             window.Show();
+        }
+
+        private void DrawColorFields(List<ColorEntry> colorList)
+        {
+            List<string> nameList = new();
+            if (colorList.Count == 0) 
+                return;
+            for (var i = 0; i < colorList.Count; i++)
+            {
+                GUILayout.BeginHorizontal();
+                if (renameChecks[i] == false)
+                {
+                    nameList.Add(colorList[i].colorName);
+                    GUILayout.Label(colorList[i].colorName);
+                }
+                else
+                {
+                    newName = GUILayout.TextField(newName);
+                }
+                colorList[i].colorValue = EditorGUILayout.ColorField(colorList[i].colorValue);
+                if (renameChecks[i] == true)
+                {
+                    if (GUILayout.Button("Apply"))
+                    {
+                        colorList[i].colorName = newName;
+                        renameChecks[i] = !renameChecks[i];
+                    }
+                }
+                else
+                {
+                    if (GUILayout.Button("Rename"))
+                    {
+                        newName = colorList[i].colorName;
+                        renameChecks[i] = !renameChecks[i];
+                    }
+                }
+                
+                if (GUILayout.Button("Remove"))
+                {
+                    colorList.RemoveAt(i);
+                    renameChecks.RemoveAt(i);
+                }
+                GUILayout.EndHorizontal();
+            }
         }
     }
 }

@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5407d58b29774974fb63ffd6422e41e2, type: 3}
   m_Name: ColorData
   m_EditorClassIdentifier: 
-  ColorList: []
+  ColorList:
+  - colorName: New Color
+    colorValue: {r: 1, g: 1, b: 1, a: 1}
