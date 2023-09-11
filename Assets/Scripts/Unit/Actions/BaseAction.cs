@@ -42,16 +42,5 @@ namespace LuminaStudio.Unit.Actions
         public abstract void OnActionSelected(object sender, EventArgs evt);
 
         public abstract void OnUnitSelected(object sender, EventArgs evt);
-        #region Grid
-
-        //public virtual bool IsValidGridPosition(GridPosition gridPosition)
-        //{
-        //    List<GridPosition> validPositionsList = GetValidGridPositions();
-        //    return validPositionsList.Contains(gridPosition);
-        //}
-
-        //public abstract List<GridPosition> GetValidGridPositions();
-
-        #endregion
     }
 }
