@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Generic;
 using LuminaStudio.Core.Input;
+using LuminaStudio.Core.Scene.Combat;
 using LuminaStudio.Grid;
 using UnityEngine;
 
 namespace LuminaStudio.Unit.Actions
 {
+    [CreateAssetMenu(fileName = "TestAction", menuName = "Lumina/Scriptable/Action/TestAction")]
     public class TestAction : BaseAction
     {
         private float _totalSpinAmount;
         private List<Unit> _targetUnitsList;
         //private int _targetAmount = 2;
 
-        public override ActionArgs GenerateArgs()
+        public override EventArgs GenerateArgs()
         {
             return default;
         }
@@ -23,10 +25,8 @@ namespace LuminaStudio.Unit.Actions
             _targetUnitsList = new List<Unit>();
         }
 
-        private void Update()
+        public override void OnUpdate()
         {
-            if (!IsActive) return;
-
             float spinAmount = 360f * Time.deltaTime;
             foreach (var target in _targetUnitsList)
             {
@@ -35,7 +35,7 @@ namespace LuminaStudio.Unit.Actions
             _totalSpinAmount += spinAmount;
             if (_totalSpinAmount >= 360f)
             {
-                ActionComplete();
+                unitManagerAction.ActionComplete();
             }
         }
         public override bool IsValidPositionOrTarget()
@@ -55,9 +55,9 @@ namespace LuminaStudio.Unit.Actions
             return 1;
         }
 
-        public override void TakeAction(ActionArgs args, Action onActionComplete)
+        public override void TakeAction(EventArgs args, Action onActionComplete)
         {
-            Actionstart(onActionComplete);
+            unitManagerAction.Actionstart(onActionComplete);
             _totalSpinAmount = 0f;
         }
 

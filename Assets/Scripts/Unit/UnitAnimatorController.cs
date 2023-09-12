@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using LuminaStudio.Unit.Actions;
 using LuminaStudio.VFX.Abilities.Projectiles;
 using UnityEngine;
@@ -14,23 +15,26 @@ namespace LuminaStudio.Unit
         private Transform m_projectileStartingPoint;
         [SerializeField]
         private Transform m_arrowProjectilePrefab;
+        private MovementAction _movementAction;
+        private ShootAction _shootAction;
 
         private void Awake()
         {
-            if (!TryGetComponent<MovementAction>(out var movementAction)) return;
-            movementAction.OnstartMoving += OnstartMoving;
-            movementAction.OnstopMoving += OnstopMoving;
-            if (!TryGetComponent<ShootAction>(out var shootAction)) return;
-            shootAction.OnstartShoot += OnstartShoot;
+            if (!TryGetComponent<UnitManagerAction>(out var unitManagerAction)) return;
+            _movementAction = (MovementAction)unitManagerAction._actions.ElementAt(0);
+            _movementAction.OnstartMoving += OnstartMoving;
+            _movementAction.OnstopMoving += OnstopMoving;
+            _shootAction = (ShootAction)unitManagerAction._actions.ElementAt(1);
+            _shootAction.OnstartShoot += OnstartShoot;
         }
 
         #region Movement
 
-        private void OnstartMoving(object sender, EventArgs evt)
+        private void OnstartMoving(object sender, EventArgs args)
         {
             m_animator.SetBool("IsMoving", true);
         }
-        private void OnstopMoving(object sender, EventArgs evt)
+        private void OnstopMoving(object sender, EventArgs args)
         {
             m_animator.SetBool("IsMoving", false);
         }
@@ -39,7 +43,7 @@ namespace LuminaStudio.Unit
 
         #region Shoot
 
-        private void OnstartShoot(object sender, ShootAction.OnShootEventArgs evt)
+        private void OnstartShoot(object sender, ShootAction.OnShootEventArgs args)
         {
             m_animator.SetTrigger("Shoot");
 
@@ -48,7 +52,7 @@ namespace LuminaStudio.Unit
             var arrowProjectile = arrow.GetComponent<ArrowProjectile>();
 
             // pass target unit's position into projectile
-            arrowProjectile.Setup(evt.targetUnit.GetWorldPositionBody());
+            arrowProjectile.Setup(args.targetUnit.GetWorldPositionBody());
         }
 
         #endregion

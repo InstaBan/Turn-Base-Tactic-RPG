@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using LuminaStudio.Core.Input;
-using LuminaStudio.Grid;
 using LuminaStudio.Unit.Actions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace LuminaStudio.Unit
+namespace LuminaStudio.Core.Scene.Combat
 {
     public class UnitActionSystem : MonoBehaviour
     {
@@ -33,8 +32,8 @@ namespace LuminaStudio.Unit
 
         #region Attributes
         [SerializeField]
-        private Unit _selectedUnit;
-        private List<Unit> _targetUnitList;
+        private Unit.Unit _selectedUnit;
+        private List<Unit.Unit> _targetUnitList;
         private LayerMask _layerMask;
         private bool _isBusy;
         private BaseAction _selectedAction;
@@ -80,7 +79,7 @@ namespace LuminaStudio.Unit
 
             var ray = InputManager.GetRayCast();
             if (Physics.Raycast(ray, out RaycastHit _hit, float.MaxValue, _layerMask) 
-                && _hit.transform.TryGetComponent<Unit>(out Unit unit) 
+                && _hit.transform.TryGetComponent<Unit.Unit>(out Unit.Unit unit) 
                 && unit != _selectedUnit && unit.IsPlayerFaction())
             {
                 SetSelectedUnit(unit);
@@ -89,21 +88,21 @@ namespace LuminaStudio.Unit
 
             return false;
         }
-        public Unit GetSelectedTargetUnit()
+        public Unit.Unit GetSelectedTargetUnit()
         {
             var ray = InputManager.GetRayCast();
             if (Physics.Raycast(ray, out RaycastHit _hit, float.MaxValue, _layerMask)
-                && _hit.transform.TryGetComponent<Unit>(out Unit unit))
+                && _hit.transform.TryGetComponent<Unit.Unit>(out Unit.Unit unit))
             {
                 return unit;
             }
 
             return null;
         }
-        public List<Unit> GetViableTargetList(float range, bool isPlayerFaction)
+        public List<Unit.Unit> GetViableTargetList(float range, bool isPlayerFaction)
         {
-            var unitsInRange = new List<Unit>();
-            var allUnits = GameObject.FindObjectsByType<Unit>(FindObjectsSortMode.None);
+            var unitsInRange = new List<Unit.Unit>();
+            var allUnits = GameObject.FindObjectsByType<Unit.Unit>(FindObjectsSortMode.None);
 
             foreach (var unit in allUnits)
             {
@@ -119,7 +118,7 @@ namespace LuminaStudio.Unit
             return unitsInRange;
         }
 
-        private void SetSelectedUnit(Unit unit)
+        private void SetSelectedUnit(Unit.Unit unit)
         {
             _selectedUnit = unit;
             OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
@@ -166,7 +165,7 @@ namespace LuminaStudio.Unit
             return action == _selectedAction;
         }
 
-        public Unit GetSelectedUnit()
+        public Unit.Unit GetSelectedUnit()
         {
             return _selectedUnit;
         }

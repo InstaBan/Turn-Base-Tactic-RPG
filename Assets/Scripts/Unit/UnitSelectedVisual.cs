@@ -1,4 +1,5 @@
 using System;
+using LuminaStudio.Core.Scene.Combat;
 using UnityEngine;
 
 namespace LuminaStudio.Unit
@@ -16,7 +17,7 @@ namespace LuminaStudio.Unit
             UpdateVisual();
         }
 
-        private void OnselectedUnitChanged(object sender, EventArgs empty)
+        private void OnselectedUnitChanged(object sender, EventArgs args)
         {
             UpdateVisual();
         }

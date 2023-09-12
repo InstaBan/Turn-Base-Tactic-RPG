@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LuminaStudio.Combat.Turn
+namespace LuminaStudio.Core.Scene.Combat
 {
     public class TurnSystem : MonoBehaviour
     {

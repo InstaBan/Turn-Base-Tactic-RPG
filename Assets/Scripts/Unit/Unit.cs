@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using LuminaStudio.Calculation.Logic;
-using LuminaStudio.Combat.Turn;
 using LuminaStudio.Core.Input;
+using LuminaStudio.Core.Scene.Combat;
 using LuminaStudio.Entity;
 using LuminaStudio.Grid;
 using LuminaStudio.Unit.Actions;
@@ -32,10 +33,10 @@ namespace LuminaStudio.Unit
 
         #endregion
 
-        #region Actions
-        private MovementAction _movementAction;
-        private TestAction _testAction;
-        private BaseAction[] _actionsArray;
+        #region Managers
+
+        private UnitManagerAction _unitManagerAction;
+
         #endregion
 
         #region Initialize
@@ -44,9 +45,7 @@ namespace LuminaStudio.Unit
         {
             //base.OnStartClient();
             // replace value with values readed from scriptable objects later
-            _movementAction = GetComponent<MovementAction>();
-            _testAction = GetComponent<TestAction>();
-            _actionsArray = GetComponents<BaseAction>();
+            _unitManagerAction = this.gameObject.GetComponent<UnitManagerAction>();
         }
 
         private void Start()
@@ -96,6 +95,10 @@ namespace LuminaStudio.Unit
             return _root_body.position;
         }
 
+        public UnitManagerAction GetManagerAction()
+        {
+            return _unitManagerAction;
+        }
         public Animator GetAnimator()
         {
             return _animator;
@@ -106,9 +109,9 @@ namespace LuminaStudio.Unit
         //    return _gridPosition;
         //}
 
-        public BaseAction[] GetActionArray()
+        public List<BaseAction> GetActionList()
         {
-            return this._actionsArray;
+            return this.transform.GetComponent<UnitManagerAction>()._actions;
         }
 
         public int GetActionPoints()

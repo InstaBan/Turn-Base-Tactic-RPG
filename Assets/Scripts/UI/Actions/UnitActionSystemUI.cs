@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using LuminaStudio.Combat.Turn;
+using LuminaStudio.Core.Scene.Combat;
 using UnityEngine;
 using LuminaStudio.Unit;
 using LuminaStudio.Unit.Actions;
@@ -43,7 +43,7 @@ namespace LuminaStudio.UI.Actions
             // Instantiate
             this.gameObject.SetActive(true);
             _selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
-            foreach (BaseAction baseAction in _selectedUnit.GetActionArray())
+            foreach (BaseAction baseAction in _selectedUnit.GetActionList())
             {
              var actionButton = Instantiate(m_actionButtonPrefab, m_actionButtonContainerTransform);
              var actionButtonUI = actionButton.GetComponent<ActionButtonUI>();
@@ -52,12 +52,12 @@ namespace LuminaStudio.UI.Actions
             }
         }
 
-        private void OnSelectedUnitChanged(object sender, EventArgs evt)
+        private void OnSelectedUnitChanged(object sender, EventArgs args)
         {
             CreateUnitActionButtons();
             UpdateActionPoints();
         }
-        private void OnSelectedActionChanged(object sender, EventArgs evt)
+        private void OnSelectedActionChanged(object sender, EventArgs args)
         {
             UpdateSelectedVisual();
         }
@@ -98,17 +98,17 @@ namespace LuminaStudio.UI.Actions
             _actionButtonUIList.Clear();
         }
 
-        private void OnActionStarted(object sender, EventArgs empty)
+        private void OnActionStarted(object sender, EventArgs args)
         {
             UpdateActionPoints();
         }
 
-        private void OnEndTurn(object sender, EventArgs empty)
+        private void OnEndTurn(object sender, EventArgs args)
         {
             UpdateActionPoints();
         }
 
-        private void OnAnyActionPointsChanged(object sender, EventArgs empty)
+        private void OnAnyActionPointsChanged(object sender, EventArgs args)
         {
             UpdateActionPoints();
         }

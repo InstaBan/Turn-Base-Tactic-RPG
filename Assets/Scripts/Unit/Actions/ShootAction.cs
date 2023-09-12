@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
 using LuminaStudio.Core.Input;
+using LuminaStudio.Core.Scene.Combat;
 using UnityEngine;
 
 namespace LuminaStudio.Unit.Actions
 {
+    [CreateAssetMenu(fileName = "ShootAction", menuName = "Lumina/Scriptable/Action/ShootAction")]
     public class ShootAction : BaseAction
     {
         #region Events
 
         public event EventHandler<OnShootEventArgs> OnstartShoot;
 
-        public class ShootArgs : ActionArgs
+        public class ShootArgs : EventArgs
         {
             public Unit TargetUnit;
         }
@@ -31,7 +33,7 @@ namespace LuminaStudio.Unit.Actions
 
         private bool _isAiming;
 
-        public override ActionArgs GenerateArgs()
+        public override EventArgs GenerateArgs()
         {
             _targetUnit = UnitActionSystem.Instance.GetSelectedTargetUnit();
             return new ShootArgs() { TargetUnit = _targetUnit };
@@ -49,34 +51,34 @@ namespace LuminaStudio.Unit.Actions
             UnitActionSystem.Instance.OnSelectedUnitChanged += OnUnitSelected;
         }
 
-        private void Update()
+        public override void OnUpdate()
         {
             if (_isAiming)
             {
-                LookAt(Vector3.Lerp(transform.position, InputManager.GetMousePosition(), Time.deltaTime * 10f));
+                LookAt(Vector3.Lerp(rootUnit.transform.position, InputManager.GetMousePosition(), Time.deltaTime * 10f));
             }
-            if (!IsActive)
+            if (!unitManagerAction.IsActive)
                 return;
-            ActionComplete();
+            unitManagerAction.ActionComplete();
         }
 
         private void LookAt(Vector3 position)
         {
-            var forwardDirection = position - transform.position;
+            var forwardDirection = position - rootUnit.transform.position;
             var newRotation = Quaternion.LookRotation(forwardDirection, Vector3.up);
-            transform.rotation = newRotation;
+            rootUnit.transform.rotation = newRotation;
         }
 
         private void ResetRotation(Quaternion rotation)
         {
-            transform.rotation = rotation;
+            rootUnit.transform.rotation = rotation;
         }
 
         private void Shoot()
         {
             _isAiming = false;
             LookAt(_targetUnit.GetWorldPosition());
-            _originalLookAt = transform.rotation;
+            _originalLookAt = rootUnit.transform.rotation;
 
             //WARNING: TESTING PURPOSE
             _targetUnit.OnDamage(40);
@@ -87,9 +89,9 @@ namespace LuminaStudio.Unit.Actions
             return "shoot";
         }
 
-        public override void TakeAction(ActionArgs args, Action onActionComplete)
+        public override void TakeAction(EventArgs args, Action onActionComplete)
         {
-            Actionstart(onActionComplete);
+            unitManagerAction.Actionstart(onActionComplete);
             Shoot();
             OnstartShoot?.Invoke(this, new OnShootEventArgs()
             {
@@ -114,7 +116,7 @@ namespace LuminaStudio.Unit.Actions
         {
             if (UnitActionSystem.Instance.GetSelectedAction() == this)
             {
-                _originalLookAt = transform.rotation;
+                _originalLookAt = rootUnit.transform.rotation;
             }
             if (UnitActionSystem.Instance.GetSelectedAction() != this)
             {

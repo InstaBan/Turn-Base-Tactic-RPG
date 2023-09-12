@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LuminaStudio.Core.Input;
+using LuminaStudio.Core.Scene.Combat;
 using LuminaStudio.Grid;
 using UnityEditor.Build;
 using UnityEditor.Rendering;
@@ -8,6 +9,7 @@ using UnityEngine;
 
 namespace LuminaStudio.Unit.Actions
 {
+    [CreateAssetMenu(fileName = "MovementAction", menuName = "Lumina/Scriptable/Action/MovementAction")]
     public class MovementAction : BaseAction
     {
         #region Events
@@ -29,49 +31,37 @@ namespace LuminaStudio.Unit.Actions
         private Vector3 _destination;
         #endregion
 
-        public class MoveArgs : ActionArgs
+        public class MoveArgs : EventArgs
         {
             public Vector3 TargetPosition;
         }
 
-        public override ActionArgs GenerateArgs()
+        public override EventArgs GenerateArgs()
         {
             var mousePos = InputManager.GetMousePosition();
             return new MoveArgs() { TargetPosition = mousePos };
         }
 
-        protected override void Awake()
+        public override void OnUpdate()
         {
-            base.Awake();
-            _destination = transform.position;
-        }
-
-        private void Start()
-        {
-
-        }
-        private void Update()
-        {
-            if (!IsActive) return;
-
-            _distanceToDestination = Vector3.Distance(transform.position, _destination);
+            _distanceToDestination = Vector3.Distance(rootUnit.transform.position, _destination);
             if (_distanceToDestination >= _stoppingDistance)
             {
-                var direction = (_destination - transform.position).normalized;
-                transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * 10f);
-                transform.position += direction * _movementSpeed * Time.deltaTime;
+                var direction = (_destination - rootUnit.transform.position).normalized;
+                rootUnit.transform.forward = Vector3.Lerp(rootUnit.transform.forward, direction, Time.deltaTime * 10f);
+                rootUnit.transform.position += direction * _movementSpeed * Time.deltaTime;
             }
             else
             {
                 OnstopMoving?.Invoke(this, EventArgs.Empty);
-                ActionComplete();
+                unitManagerAction.ActionComplete();
             }
         }
 
         public override bool IsValidPositionOrTarget()
         {
             var mousePosition = InputManager.GetMousePosition();
-            var distance = Vector3.Distance(transform.position, mousePosition);
+            var distance = Vector3.Distance(rootUnit.transform.position, mousePosition);
             return distance < _movementRange;
         }
 
@@ -129,10 +119,10 @@ namespace LuminaStudio.Unit.Actions
             return 1;
         }
 
-        public override void TakeAction(ActionArgs parameters, Action onActionComplete)
+        public override void TakeAction(EventArgs parameters, Action onActionComplete)
         {
             var movementParameters = (MoveArgs)parameters;
-            Actionstart(onActionComplete);
+            unitManagerAction.Actionstart(onActionComplete);
             _destination = movementParameters.TargetPosition;
             OnstartMoving?.Invoke(this, EventArgs.Empty);
         }

@@ -5,40 +5,37 @@ using UnityEngine;
 
 namespace LuminaStudio.Unit.Actions
 {
-    public abstract class BaseAction : MonoBehaviour
+    [CreateAssetMenu(fileName = "BaseAction", menuName = "Lumina/Scriptable/Action/BaseAction")]
+    public abstract class BaseAction : ScriptableObject
     {
         protected Unit rootUnit;
-        protected bool IsActive;
-        protected Action OnActionComplete;
-
-        public partial class ActionArgs { }
-        public abstract ActionArgs GenerateArgs();
+        protected UnitManagerAction unitManagerAction;
 
         protected virtual void Awake()
         {
-            rootUnit = GetComponent<Unit>();
+            
         }
+        public virtual void OnUpdate()
+        {
+
+        }
+        public virtual void SetRootUnit(Unit unit)
+        {
+            rootUnit = unit;
+            unitManagerAction = unit.GetManagerAction();
+        }
+        public abstract EventArgs GenerateArgs();
 
         public abstract string GetActionName();
 
-        public abstract void TakeAction(ActionArgs args, Action onActionComplete);
+        public abstract void TakeAction(EventArgs args, Action onActionComplete);
 
         public abstract bool IsValidPositionOrTarget();
 
         // REPLACE INT WITH TYPE/COST STRUCT OR CLASS LATER
         public abstract int GetActionResourceCost();
 
-        protected void Actionstart(Action onActionComplete)
-        {
-            IsActive = true;
-            this.OnActionComplete = onActionComplete;
-        }
-
-        protected void ActionComplete()
-        {
-            IsActive = false;
-            OnActionComplete();
-        }
+        
         public abstract void OnActionSelected(object sender, EventArgs evt);
 
         public abstract void OnUnitSelected(object sender, EventArgs evt);
